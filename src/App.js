@@ -2,19 +2,19 @@ import React, { useState } from 'react';
 
 function App() {
   let [value, setValue] = useState("");
-  let [adding, setAdding] = useState(<></>);
+  let [arr, setArr] = useState([])
 
   function save () {
-    setAdding(<div>{value}</div>);
+    const div = <div>{value}</div>
+    setArr([...arr, div]);
     setValue("")
   }
 
   return <>
     <input value={value} onChange={(event) => setValue(event.target.value)}/>
     <button disabled={!value ? true : false} onClick={save}>Добавить</button>
-    {adding}
+    {arr}
   </>
-
 }
 
 // function App() {
