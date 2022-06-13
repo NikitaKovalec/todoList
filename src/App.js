@@ -2,18 +2,20 @@ import React, { useState } from 'react';
 
 function App() {
   let [value, setValue] = useState("");
-  let [arr, setArr] = useState([])
+  let [arr, setArr] = useState([]);
+  const disabled = !value;
+  const color = disabled ? "#333333" : "#4676D7";
 
   function save () {
     const div = <div
         style={{
-            width: "100px",
-            margin: "15px",
+            width: 100,
+            margin: 15,
             padding: "5px 10px",
-            border: "0.5px solid #4676D7",
-            borderRadius: "4px"
+            border: "1px solid #4676D7",
+            borderRadius: 4
         }}
-    >{value}</div>
+    >{value}</div>;
     setArr([...arr, div]);
     setValue("")
   }
@@ -23,37 +25,28 @@ function App() {
         value={value}
         onChange={(event) => setValue(event.target.value)}
         style={{
-          width: "200px",
-          height: "35px",
-          margin: "15px",
+          width: 200,
+          height: 35,
+          margin: 15,
           padding: "5px 10px",
-          border: "0.5px solid #bdbdbd",
-          borderRadius: "4px"
+          border: "1px solid #bdbdbd",
+          borderRadius: 4
         }}
     />
-    <button disabled={!value ? true : false}
-            onClick={save}
-            style={{
-              border: "0",
-              borderRadius: "5px",
-              background: "#4676D7",
-              color: "#fff",
-              padding: "15px 20px",
-              fontSize: "16px"
-            }}
+    <button
+        disabled={disabled}
+        onClick={save}
+        style={{
+          border: "none",
+          borderRadius: 5,
+          background: color,
+          color: "#fff",
+          padding: "15px 20px",
+          fontSize: 16
+        }}
     >Добавить</button>
     {arr}
   </>
 }
-
-// function App() {
-//   let [state, setState] = useState(true);
-//
-//   return <>
-//     <input onFocus={() => setState(false)} onBlur={() => setState(true)}/>
-//     {state ? <button disabled={true}>Добавить</button> : <button disabled={false}>Добавить</button>}
-//   </>
-//
-// }
 
 export default App;
