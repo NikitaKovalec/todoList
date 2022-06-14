@@ -4,9 +4,14 @@ function App() {
   let [value, setValue] = useState("");
   let [arr, setArr] = useState([]);
   const disabled = !value;
+  let obj = {
+      id: 0,
+      value: {value}
+  }
 
   function save () {
-    setArr([...arr, value]);
+    setArr([...arr, obj]);
+    obj.id++;
     setValue("")
   }
 
@@ -35,15 +40,17 @@ function App() {
             fontSize: 16
         }}
     >Добавить</button>
-    {arr.map(function (value) {
-        return <div style={{
+    {arr.map(function (obj) {
+        return <div
+            key={obj.id}
+            style={{
             width: 200,
             margin: 15,
             padding: "5px 10px",
             border: "1px solid #4676D7",
             borderRadius: 4
         }}
-        >{value}</div>})}
+        >{obj.value}</div>})}
   </>
 }
 
