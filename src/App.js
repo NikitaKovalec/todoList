@@ -7,12 +7,8 @@ function App() {
   const disabled = !value;
 
   function save () {
-    let obj = {
-      id,
-      value
-    };
     id += 1;
-    setArr([...arr, obj]);
+    setArr([...arr, {value, id}]);
     setValue("")
   }
 
@@ -41,9 +37,9 @@ function App() {
             fontSize: 16
         }}
     >Добавить</button>
-    {arr.map(function (obj) {
+    {arr.map(function ({value, id}) {
         return <div
-            key={obj.id}
+            key={id}
             style={{
             width: 200,
             margin: 15,
@@ -51,7 +47,7 @@ function App() {
             border: "1px solid #4676D7",
             borderRadius: 4
         }}
-        >{obj.value}</div>})}
+        >{value}</div>})}
   </>
 }
 
