@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
+let id = 0
 
 function App() {
   let [value, setValue] = useState("");
   let [arr, setArr] = useState([]);
   const disabled = !value;
 
-  let obj = {
-      id: 0,
-      value
-  };
-
-
   function save () {
+    let obj = {
+      id,
+      value
+    };
+    id += 1;
     setArr([...arr, obj]);
-    obj.id += 1;
     setValue("")
   }
 
