@@ -5,13 +5,13 @@ function App() {
   let [arr, setArr] = useState([]);
   const disabled = !value;
   let obj = {
-      id: 0,
-      value: {value}
-  }
+      id: arr.length + 1,
+      value: value
+  };
+
 
   function save () {
     setArr([...arr, obj]);
-    obj.id++;
     setValue("")
   }
 
