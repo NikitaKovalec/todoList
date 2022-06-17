@@ -5,12 +5,17 @@ let id = 0
 function App() {
   let [value, setValue] = useState("")
   let [arr, setArr] = useState([])
+  let [editing, setEditing] = useState(true)
   const disabled = !value
 
   function save() {
     id += 1
     setArr([...arr, {value, id}])
     setValue("")
+  }
+
+  function edit() {
+    setEditing(!editing)
   }
 
   function del(id) {
@@ -45,7 +50,7 @@ function App() {
       Добавить
     </button>
     {arr.map(({value, id}) =>
-       <div
+        <div
         key={id}
         style={{
           display: "flex",
@@ -58,7 +63,7 @@ function App() {
           >
             {"Задача №" + id}
           </div>
-          <div
+          {editing ? <div
             style={{
               width: 200,
               height: 40,
@@ -71,7 +76,18 @@ function App() {
             }}
           >
             {value}
-          </div>
+          </div> : <input
+            value={value}
+            onChange={(event) => setValue(event.target.value)}
+            style={{
+              width: 200,
+              height: 40,
+              margin: 15,
+              padding: "5px 10px",
+              border: "1px solid #4676D7",
+              borderRadius: 4
+            }}
+          />}
           <button
             onClick={() => del(id)}
             style={{
@@ -89,6 +105,7 @@ function App() {
             Удалить
           </button>
           <button
+            onClick={edit}
             style={{
               width: 150,
               height: 52,
@@ -101,7 +118,7 @@ function App() {
               fontSize: 16
             }}
           >
-            Редактировать
+            {editing ? "Редактировать" : "Сохранить"}
           </button>
       </div>
       )}
