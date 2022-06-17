@@ -12,6 +12,10 @@ function App() {
     setValue("")
   }
 
+  function del (id) {
+      setArr([...arr.slice(id)])
+  }
+
   return <>
     <input
         value={value}
@@ -41,13 +45,35 @@ function App() {
         return <div
             key={id}
             style={{
-            width: 200,
-            margin: 15,
-            padding: "5px 10px",
-            border: "1px solid #4676D7",
-            borderRadius: 4
-        }}
-        >{value}</div>})}
+                display: "flex"
+            }}>
+            <div
+                key={id + 1}
+                style={{
+                    width: 200,
+                    height: 40,
+                    margin: 15,
+                    padding: "5px 10px",
+                    border: "1px solid #4676D7",
+                    borderRadius: 4
+                }}
+            >{value}</div>
+            <button
+                key={id + 2}
+                onClick={() => del(id)}
+                style={{
+                    width: 111,
+                    height: 52,
+                    border: "none",
+                    marginTop: 15,
+                    padding: "15px 20px",
+                    borderRadius: 4,
+                    background: "#4676D7",
+                    color: "#fff",
+                    fontSize: 16
+                }}
+            >Удалить</button>
+        </div>})}
   </>
 }
 
