@@ -32,6 +32,7 @@ function App() {
         borderRadius: 4
       }}
     />
+
     <button
       disabled={disabled}
       onClick={save}
@@ -43,7 +44,8 @@ function App() {
         padding: "15px 20px",
         fontSize: 16
       }}
-    >Добавить
+    >
+      Добавить
     </button>
     {arr.map(function ({value, id} ) {
       return <div
@@ -51,31 +53,56 @@ function App() {
         style={{
           display: "flex"
         }}>
-        <div
-          style={{
-            width: 200,
-            height: 40,
-            margin: 15,
-            padding: "5px 10px",
-            border: "1px solid #4676D7",
-            borderRadius: 4
-          }}
-        >{value}</div>
-        <button
-          onClick={() => del(id)}
-          style={{
-            width: 111,
-            height: 52,
-            border: "none",
-            marginTop: 15,
-            padding: "15px 20px",
-            borderRadius: 4,
-            background: "#4676D7",
-            color: "#fff",
-            fontSize: 16
-          }}
-        >Удалить
-        </button>
+
+          <p>
+            {"Задача №" + id}
+          </p>
+
+          <div
+            style={{
+              width: 200,
+              height: 40,
+              margin: 15,
+              padding: "5px 10px",
+              border: "1px solid #4676D7",
+              borderRadius: 4
+            }}
+          >
+            {value}
+          </div>
+
+          <button
+            onClick={() => del(id)}
+            style={{
+              width: 111,
+              height: 52,
+              border: "none",
+              marginTop: 15,
+              padding: "15px 20px",
+              borderRadius: 4,
+              background: "#d50000",
+              color: "#fff",
+              fontSize: 16
+            }}
+          >
+            Удалить
+          </button>
+
+          <button
+            style={{
+              width: 150,
+              height: 52,
+              border: "none",
+              margin: "15px 0px 0px 5px",
+              padding: "15px 20px",
+              borderRadius: 4,
+              background: "#4676D7",
+              color: "#fff",
+              fontSize: 16
+            }}
+          >
+            Редактировать
+          </button>
       </div>
     })}
   </>
