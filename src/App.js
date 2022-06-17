@@ -3,20 +3,18 @@ import React, {useState} from 'react';
 let id = 0
 
 function App() {
-  let [value, setValue] = useState("");
-  let [arr, setArr] = useState([]);
-  const disabled = !value;
+  let [value, setValue] = useState("")
+  let [arr, setArr] = useState([])
+  const disabled = !value
 
   function save() {
-    id += 1;
-    setArr([...arr, {value, id}]);
+    id += 1
+    setArr([...arr, {value, id}])
     setValue("")
   }
 
   function del(id) {
     setArr(arr.filter(obj => obj.id !== id))
-    // let findId = arr.findIndex(obj => obj.id === id);
-    // setArr(arr.splice(1, findId))
   }
 
   return <>
@@ -32,7 +30,6 @@ function App() {
         borderRadius: 4
       }}
     />
-
     <button
       disabled={disabled}
       onClick={save}
@@ -47,17 +44,20 @@ function App() {
     >
       Добавить
     </button>
-    {arr.map(function ({value, id} ) {
-      return <div
+    {arr.map(({value, id}) =>
+       <div
         key={id}
         style={{
-          display: "flex"
-        }}>
-
-          <p>
+          display: "flex",
+        }}
+       >
+          <div
+            style={{
+              marginTop: 15
+            }}
+          >
             {"Задача №" + id}
-          </p>
-
+          </div>
           <div
             style={{
               width: 200,
@@ -65,12 +65,13 @@ function App() {
               margin: 15,
               padding: "5px 10px",
               border: "1px solid #4676D7",
-              borderRadius: 4
+              borderRadius: 4,
+              overflow: "hidden",
+              textOverflow: "ellipsis"
             }}
           >
             {value}
           </div>
-
           <button
             onClick={() => del(id)}
             style={{
@@ -87,7 +88,6 @@ function App() {
           >
             Удалить
           </button>
-
           <button
             style={{
               width: 150,
@@ -104,7 +104,7 @@ function App() {
             Редактировать
           </button>
       </div>
-    })}
+      )}
   </>
 }
 
