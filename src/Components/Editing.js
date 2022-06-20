@@ -16,7 +16,19 @@ function Editing({id, del, save, value, edit, isEditing}) {
     >
       {"Задача №" + id}
     </div>
-    {!isEditing ?
+    {isEditing ?
+      <input
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
+        style={{
+          width: 200,
+          height: 35,
+          margin: 15,
+          padding: "5px 10px",
+          border: "1px solid #bdbdbd",
+          borderRadius: 4
+        }}
+      /> :
       <div
         style={{
           width: 200,
@@ -30,19 +42,8 @@ function Editing({id, del, save, value, edit, isEditing}) {
         }}
       >
         {isEditing ? inputValue : value}
-      </div> :
-      <input
-        value={inputValue}
-        onChange={(event) => setInputValue(event.target.value)}
-        style={{
-          width: 200,
-          height: 35,
-          margin: 15,
-          padding: "5px 10px",
-          border: "1px solid #bdbdbd",
-          borderRadius: 4
-        }}
-      />}
+      </div>
+      }
     <button
       onClick={isEditing ? save : edit}
       style={{
