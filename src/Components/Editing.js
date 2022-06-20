@@ -1,6 +1,8 @@
 import React from "react";
+import {useState} from "react";
 
-function Editing({value, id, del, save, isEditing, edit, setValue}) {
+function Editing({id, del, save, value, edit, isEditing}) {
+  let [inputValue, setInputValue] = useState(value)
   return <div
     style={{
       display: "flex",
@@ -26,11 +28,11 @@ function Editing({value, id, del, save, isEditing, edit, setValue}) {
           textOverflow: "ellipsis"
         }}
       >
-        {value}
+        {isEditing ? value : inputValue}
       </div> :
       <input
-        value={value}
-        onChange={(event) => setValue(event.target.value)}
+        value={inputValue}
+        onChange={(event) => setInputValue(event.target.value)}
         style={{
           width: 200,
           height: 35,

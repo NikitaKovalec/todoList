@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Editing from './Components/Editing';
 import Form from './Components/Form';
+
 let id = 0
 
 function App() {
@@ -8,17 +9,20 @@ function App() {
   let [value, setValue] = useState("")
   let [isEditing, setIsEditing] = useState(true)
 
+
+  function edit() {
+    setIsEditing(!isEditing)
+  }
+
   function del(id) {
     setArr(arr.filter(obj => obj.id !== id))
   }
+
   function save() {
     id += 1
     setArr([...arr, {value, id}])
     setValue("")
-  }
-
-  function edit() {
-    setIsEditing(!isEditing)
+    isEditing = true
   }
 
   return <>
@@ -26,18 +30,17 @@ function App() {
           save={save}
           value={value}
     />
-    {arr.map(({value, id})=>
+    {arr.map(({value, id}) =>
       <Editing key={id}
                id={id}
                value={value}
+               isEditing={isEditing}
                del={del}
                save={save}
                edit={edit}
-               setValue={setValue}
-               isEditing={isEditing}
       />
     )}
-    </>
+  </>
 }
 
 export default App;
