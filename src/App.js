@@ -28,7 +28,6 @@ function App() {
             id={id}
             value={value}
             del={del}
-            save={save}
       />
     )}
   </>

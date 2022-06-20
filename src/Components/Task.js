@@ -1,7 +1,7 @@
 import React from "react";
 import {useState} from "react";
 
-function Task({id, del, save, value}) {
+function Task({id, del, value}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
 
@@ -10,9 +10,7 @@ function Task({id, del, save, value}) {
   }
 
   function change() {
-    if (!isEditing){
-      save()
-    }else {setIsEditing(false)}
+    setIsEditing(false)
   }
 
   return <div
