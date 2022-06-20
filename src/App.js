@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import Editing from './Components/Editing';
+import Task from './Components/Task';
 import Form from './Components/Form';
 
 let id = 0
@@ -24,11 +24,11 @@ function App() {
           value={value}
     />
     {arr.map(({value, id}) =>
-      <Editing key={id}
-               id={id}
-               value={value}
-               del={del}
-               save={save}
+      <Task key={id}
+            id={id}
+            value={value}
+            del={del}
+            save={save}
       />
     )}
   </>

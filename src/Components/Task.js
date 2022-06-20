@@ -1,7 +1,7 @@
 import React from "react";
 import {useState} from "react";
 
-function Editing({id, del, save, value}) {
+function Task({id, del, save, value}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
 
@@ -90,4 +90,4 @@ function Editing({id, del, save, value}) {
   </div>
 }
 
-export default Editing;
+export default Task;
