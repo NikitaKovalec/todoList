@@ -41,7 +41,7 @@ function Editing({id, del, save, value, edit, isEditing}) {
           textOverflow: "ellipsis"
         }}
       >
-        {isEditing ? inputValue : value}
+        {inputValue}
       </div>
       }
     <button
