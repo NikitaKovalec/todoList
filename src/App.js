@@ -7,25 +7,15 @@ let id = 0
 function App() {
   let [arr, setArr] = useState([])
   let [value, setValue] = useState("")
-  let [isEditing, setIsEditing] = useState(false)
-
-
-  function edit() {
-    setIsEditing(true)
-  }
 
   function del(id) {
     setArr(arr.filter(obj => obj.id !== id))
   }
 
   function save() {
-    if (!isEditing) {
       id += 1
       setArr([...arr, {value, id}])
       setValue("")
-    } else {
-      setIsEditing(false)
-    }
   }
 
   return <>
@@ -37,10 +27,8 @@ function App() {
       <Editing key={id}
                id={id}
                value={value}
-               isEditing={isEditing}
                del={del}
                save={save}
-               edit={edit}
       />
     )}
   </>

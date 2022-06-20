@@ -1,8 +1,19 @@
 import React from "react";
 import {useState} from "react";
 
-function Editing({id, del, save, value, edit, isEditing}) {
+function Editing({id, del, save, value}) {
   let [inputValue, setInputValue] = useState(value)
+  let [isEditing, setIsEditing] = useState(false)
+
+  function edit() {
+    setIsEditing(true)
+  }
+
+  function change() {
+    if (!isEditing){
+      save()
+    }else {setIsEditing(false)}
+  }
 
   return <div
     style={{
@@ -43,9 +54,9 @@ function Editing({id, del, save, value, edit, isEditing}) {
       >
         {inputValue}
       </div>
-      }
+    }
     <button
-      onClick={isEditing ? save : edit}
+      onClick={isEditing ? change : edit}
       style={{
         width: 150,
         height: 52,
