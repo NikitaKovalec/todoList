@@ -7,11 +7,11 @@ let id = 0
 function App() {
   let [arr, setArr] = useState([])
   let [value, setValue] = useState("")
-  let [isEditing, setIsEditing] = useState(true)
+  let [isEditing, setIsEditing] = useState(false)
 
 
   function edit() {
-    setIsEditing(false)
+    setIsEditing(true)
   }
 
   function del(id) {
@@ -19,12 +19,12 @@ function App() {
   }
 
   function save() {
-    if (isEditing) {
+    if (!isEditing) {
       id += 1
       setArr([...arr, {value, id}])
       setValue("")
     } else {
-      setIsEditing(true)
+      setIsEditing(false)
     }
   }
 

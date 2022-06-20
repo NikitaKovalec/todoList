@@ -16,7 +16,7 @@ function Editing({id, del, save, value, edit, isEditing}) {
     >
       {"Задача №" + id}
     </div>
-    {isEditing ?
+    {!isEditing ?
       <div
         style={{
           width: 200,
@@ -29,7 +29,7 @@ function Editing({id, del, save, value, edit, isEditing}) {
           textOverflow: "ellipsis"
         }}
       >
-        {isEditing ? value : inputValue}
+        {isEditing ? inputValue : value}
       </div> :
       <input
         value={inputValue}
@@ -44,7 +44,7 @@ function Editing({id, del, save, value, edit, isEditing}) {
         }}
       />}
     <button
-      onClick={isEditing ? edit : save}
+      onClick={isEditing ? save : edit}
       style={{
         width: 150,
         height: 52,
@@ -57,7 +57,7 @@ function Editing({id, del, save, value, edit, isEditing}) {
         fontSize: 16
       }}
     >
-      {isEditing ? "Редактировать" : "Сохранить"}
+      {isEditing ? "Сохранить" : "Редактировать"}
     </button>
     <button
       onClick={() => del(id)}
