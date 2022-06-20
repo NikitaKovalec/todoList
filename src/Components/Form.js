@@ -1,11 +1,7 @@
-function Form({setArr, arr, value, setValue, id}) {
-  const disabled = !value
+import {useState} from "react";
 
-  function save() {
-    id += 1
-    setArr([...arr, {value, id}])
-    setValue("")
-  }
+function Form({value, setValue, save}) {
+  const disabled = !value
 
   return <>
     <input

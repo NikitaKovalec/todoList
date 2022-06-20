@@ -1,20 +1,41 @@
 import React, {useState} from 'react';
 import Editing from './Components/Editing';
 import Form from './Components/Form';
-let id = 0;
+let id = 0
 
 function App() {
   let [arr, setArr] = useState([])
   let [value, setValue] = useState("")
+  let [isEditing, setIsEditing] = useState(true)
 
   function del(id) {
     setArr(arr.filter(obj => obj.id !== id))
   }
+  function save() {
+    id += 1
+    setArr([...arr, {value, id}])
+    setValue("")
+  }
+
+  function edit() {
+    setIsEditing(!isEditing)
+  }
 
   return <>
-    <Form arr={arr} setArr={setArr} value={value} setValue={setValue} id={id}/>
+    <Form setValue={setValue}
+          save={save}
+          value={value}
+    />
     {arr.map(({value, id})=>
-      <Editing id={id} value={value}/>
+      <Editing key={id}
+               id={id}
+               value={value}
+               del={del}
+               save={save}
+               edit={edit}
+               setValue={setValue}
+               isEditing={isEditing}
+      />
     )}
     </>
 }
@@ -95,6 +116,21 @@ export default App;
 //           {value}
 //         </div>
 //         <button
+//           style={{
+//             width: 150,
+//             height: 52,
+//             border: "none",
+//             margin: "15px 0px 0px 5px",
+//             padding: "15px 20px",
+//             borderRadius: 4,
+//             background: "#4676D7",
+//             color: "#fff",
+//             fontSize: 16
+//           }}
+//         >
+//           Редактировать
+//         </button>
+//         <button
 //           onClick={() => del(id)}
 //           style={{
 //             width: 111,
@@ -109,21 +145,6 @@ export default App;
 //           }}
 //         >
 //           Удалить
-//         </button>
-//         <button
-//           style={{
-//             width: 150,
-//             height: 52,
-//             border: "none",
-//             margin: "15px 0px 0px 5px",
-//             padding: "15px 20px",
-//             borderRadius: 4,
-//             background: "#4676D7",
-//             color: "#fff",
-//             fontSize: 16
-//           }}
-//         >
-//           Редактировать
 //         </button>
 //       </div>
 //     )}
