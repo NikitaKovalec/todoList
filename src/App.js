@@ -11,7 +11,7 @@ function App() {
 
 
   function edit() {
-    setIsEditing(!isEditing)
+    setIsEditing(false)
   }
 
   function del(id) {
@@ -19,10 +19,13 @@ function App() {
   }
 
   function save() {
-    id += 1
-    setArr([...arr, {value, id}])
-    setValue("")
-    isEditing = true
+    if (isEditing) {
+      id += 1
+      setArr([...arr, {value, id}])
+      setValue("")
+    } else {
+      setIsEditing(true)
+    }
   }
 
   return <>

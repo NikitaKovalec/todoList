@@ -3,6 +3,7 @@ import {useState} from "react";
 
 function Editing({id, del, save, value, edit, isEditing}) {
   let [inputValue, setInputValue] = useState(value)
+
   return <div
     style={{
       display: "flex",
