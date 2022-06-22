@@ -10,7 +10,6 @@ function Task({id, del, value, newValue}) {
 
   function change() {
     newValue = inputValue
-    setInputValue(newValue)
     setIsEditing(false)
     console.log(newValue)
   }
