@@ -1,7 +1,6 @@
-import React from "react";
-import {useState} from "react";
+import React, { useState } from "react";
 
-function Task({id, del, value}) {
+function Task({id, del, value, arr}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
 
@@ -10,6 +9,7 @@ function Task({id, del, value}) {
   }
 
   function change() {
+    arr.x = inputValue
     setIsEditing(false)
   }
 
@@ -31,7 +31,7 @@ function Task({id, del, value}) {
         onChange={(event) => setInputValue(event.target.value)}
         style={{
           width: 200,
-          height: 35,
+          height: 40,
           margin: 15,
           padding: "5px 10px",
           border: "1px solid #bdbdbd",
