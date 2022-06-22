@@ -11,7 +11,6 @@ function Task({id, del, value, newValue}) {
   function change() {
     newValue = inputValue
     setIsEditing(false)
-    console.log(newValue)
   }
 
   return <div
@@ -51,7 +50,7 @@ function Task({id, del, value, newValue}) {
           textOverflow: "ellipsis"
         }}
       >
-        {inputValue}
+        {value}
       </div>
     }
     <button

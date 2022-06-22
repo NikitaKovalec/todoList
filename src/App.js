@@ -24,7 +24,7 @@ function App() {
           save={save}
           value={value}
     />
-    {arr.map(({value, id, newValue}) =>
+    {arr.map(({value = newValue, id, newValue}) =>
       <Task key={id}
             id={id}
             newValue={newValue}
