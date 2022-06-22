@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-function Task({id, del, value, arr}) {
+function Task({id, del, value, arr, setArr}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
 
@@ -11,6 +11,7 @@ function Task({id, del, value, arr}) {
   function change(id) {
     let findValue = arr.find(obj => obj.id === id)
     findValue.value = inputValue
+    setArr(arr)
     setIsEditing(false)
   }
 

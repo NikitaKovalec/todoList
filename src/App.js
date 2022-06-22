@@ -28,6 +28,7 @@ function App() {
             id={id}
             value={value}
             arr={arr}
+            setArr={setArr}
             del={del}
       />
     )}
