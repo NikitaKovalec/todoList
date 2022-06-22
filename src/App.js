@@ -3,7 +3,6 @@ import Task from './Components/Task';
 import Form from './Components/Form';
 
 let id = 0
-let newValue = ""
 
 function App() {
   let [arr, setArr] = useState([])
@@ -15,7 +14,7 @@ function App() {
 
   function save() {
       id += 1
-      setArr([...arr, {value, id, newValue}])
+      setArr([...arr, {value, id}])
       setValue("")
   }
 
@@ -24,12 +23,11 @@ function App() {
           save={save}
           value={value}
     />
-    {arr.map(({value, id, newValue}) =>
+    {arr.map(({value, id}) =>
       <Task key={id}
             id={id}
-            newValue={newValue}
-            setValue={setValue}
             value={value}
+            arr={arr}
             del={del}
       />
     )}
