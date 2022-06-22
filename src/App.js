@@ -12,10 +12,11 @@ function App() {
     setArr(arr.filter(obj => obj.id !== id))
   }
 
-  function changeValue(inputValue) {
-    let findValue = arr.find(obj => obj.id === id)
+  function changeValue(id, inputValue) {
+    let findValue = arr.find(obj => obj.id == id)
     findValue.value = inputValue
     setArr([...arr])
+    console.log(findValue.id)
   }
 
   function save() {
