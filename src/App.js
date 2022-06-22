@@ -29,8 +29,6 @@ function App() {
             x={x}
             value={value}
             del={del}
-            save={save}
-            arr={arr}
       />
     )}
   </>
