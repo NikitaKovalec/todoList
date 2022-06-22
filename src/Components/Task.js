@@ -5,6 +5,7 @@ function Task({id, del, value, newValue}) {
   let [isEditing, setIsEditing] = useState(false)
 
   function edit() {
+    value = newValue
     setIsEditing(true)
   }
 

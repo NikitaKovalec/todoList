@@ -24,10 +24,11 @@ function App() {
           save={save}
           value={value}
     />
-    {arr.map(({value = newValue, id, newValue}) =>
+    {arr.map(({value, id, newValue}) =>
       <Task key={id}
             id={id}
             newValue={newValue}
+            setValue={setValue}
             value={value}
             del={del}
       />
