@@ -11,7 +11,7 @@ function Task({id, del, value, arr, setArr}) {
   function change(id) {
     let findValue = arr.find(obj => obj.id === id)
     findValue.value = inputValue
-    setArr(arr)
+    setArr([...arr])
     setIsEditing(false)
   }
 
