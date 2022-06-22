@@ -16,7 +16,6 @@ function App() {
     let findValue = arr.find(obj => obj.id == id)
     findValue.value = inputValue
     setArr([...arr])
-    console.log(findValue.id)
   }
 
   function save() {
