@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Task({id, del, value, x}) {
+function Task({id, del, value, newValue}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
 
@@ -9,9 +9,9 @@ function Task({id, del, value, x}) {
   }
 
   function change() {
-    x = inputValue
+    newValue = inputValue
     setIsEditing(false)
-    console.log(x)
+    console.log(newValue)
   }
 
   return <div
