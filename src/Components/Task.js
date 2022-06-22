@@ -1,17 +1,11 @@
 import React, {useState} from "react";
 
-function Task({id, del, value, arr, setArr}) {
+function Task({id, del, value, changeValue}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
 
-  function edit() {
-    setIsEditing(true)
-  }
-
-  function change(id) {
-    let findValue = arr.find(obj => obj.id === id)
-    findValue.value = inputValue
-    setArr([...arr])
+  function change() {
+    changeValue(inputValue)
     setIsEditing(false)
   }
 
@@ -56,7 +50,7 @@ function Task({id, del, value, arr, setArr}) {
       </div>
     }
     <button
-      onClick={isEditing ? () => change(id) : edit}
+      onClick={isEditing ? change : () => setIsEditing(true)}
       style={{
         width: 150,
         height: 52,

@@ -12,6 +12,12 @@ function App() {
     setArr(arr.filter(obj => obj.id !== id))
   }
 
+  function changeValue(inputValue) {
+    let findValue = arr.find(obj => obj.id === id)
+    findValue.value = inputValue
+    setArr([...arr])
+  }
+
   function save() {
       id += 1
       setArr([...arr, {value, id}])
@@ -27,8 +33,7 @@ function App() {
       <Task key={id}
             id={id}
             value={value}
-            arr={arr}
-            setArr={setArr}
+            changeValue={changeValue}
             del={del}
       />
     )}
