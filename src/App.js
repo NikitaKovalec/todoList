@@ -13,7 +13,7 @@ function App() {
   }, [arr])
 
   function del(id) {
-    if (window.confirm("Удаляю?") === true) {
+    if (window.confirm("Удаляю?")) {
       setArr(arr.filter(obj => obj.id !== id))
     }
   }
