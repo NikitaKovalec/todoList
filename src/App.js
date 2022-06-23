@@ -5,7 +5,7 @@ import Form from './Components/Form';
 let id = 0
 
 function App() {
-  let [arr, setArr] = useState(JSON.parse(localStorage.getItem('task')) || [])
+  let [arr, setArr] = useState(() => JSON.parse(localStorage.getItem('task')) || [])
   let [value, setValue] = useState("")
 
   useEffect(() => {
@@ -13,7 +13,9 @@ function App() {
   }, [arr])
 
   function del(id) {
-    setArr(arr.filter(obj => obj.id !== id))
+    if (window.confirm("Удаляю?") === true) {
+      setArr(arr.filter(obj => obj.id !== id))
+    }
   }
 
   function changeValue(id, inputValue) {

@@ -19,7 +19,6 @@ function Task({id, del, value, changeValue}) {
         marginTop: 15
       }}
     >
-      {"Задача №" + id}
     </div>
     {isEditing ?
       <input
