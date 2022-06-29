@@ -15,8 +15,10 @@ app.post('/tasks', (req, res) => {
   const task = req.body
   task.value = value
   task.id = id + 1
-  res.json(tasks.push(task))
-  res.send(201)
+
+  tasks.push(task)
+  res.status(201)
+
 })
 
 app.listen(port, () => {
