@@ -3,12 +3,12 @@ const app = express()
 const port = 3100
 let arr = []
 
-app.get('/', (req, res) => {
+app.get('/tasks', (req, res) => {
   let obj = {
-    value,
-    id
+    value: "",
+    id: 0
   }
-  res.send(JSON.stringify([...arr, obj]))
+  res.json([...arr, obj])
 })
 
 app.listen(port, () => {
