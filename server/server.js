@@ -2,7 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3100
 const tasks = []
-
+id = 0
+value = ''
 
 app.use(express.json())
 
@@ -11,11 +12,10 @@ app.get('/tasks', (req, res) => {
 })
 
 app.post('/tasks', (req, res) => {
-  res.send(201)
   const task = req.body
-  task.value = ''
-  task.id = 0
-  return [...tasks, task]
+  task.value = value
+  task.id = id + 1
+  res.json(tasks.push(task))
 })
 
 app.listen(port, () => {
