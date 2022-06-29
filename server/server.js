@@ -12,11 +12,11 @@ app.get('/tasks', (req, res) => {
 })
 
 app.post('/tasks', (req, res) => {
-  const task = {}
-  task.value = req.body.value
-  task.id = id++
 
-  if (task.value) {
+  if (req.body.value) {
+    const task = {}
+    task.value = req.body.value
+    task.id = id++
     tasks.push(task)
     res.status(201)
     res.send('ХУЕК')
