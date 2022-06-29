@@ -14,10 +14,10 @@ app.get('/tasks', (req, res) => {
 app.post('/tasks', (req, res) => {
   const task = req.body
   task.value = value
-  task.id = id + 1
+  task.id = id++
 
   tasks.push(task)
-  res.status(201)
+  res.send(201)
 
 })
 
