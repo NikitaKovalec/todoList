@@ -1,14 +1,21 @@
 const express = require('express')
 const app = express()
 const port = 3100
-let arr = []
+const tasks = []
+const task = {}
+
+app.use(express.json())
 
 app.get('/tasks', (req, res) => {
-  let obj = {
-    value: "",
-    id: 0
-  }
-  res.json([...arr, obj])
+  res.json(tasks)
+})
+
+app.post('/tasks', (req, res) => {
+  task.value = ''
+  task.id = 0
+
+  console.log(task)
+  res.send(201)
 })
 
 app.listen(port, () => {
