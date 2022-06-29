@@ -21,10 +21,8 @@ app.post('/tasks', (req, res) => {
     res.status(201)
     res.send('ХУЕК')
   }else {
-    res.status(404).send('Поле value обязательно')
+    res.status(400).send('Поле value обязательно')
   }
-
-  console.log(req.body)
 })
 
 app.listen(port, () => {
