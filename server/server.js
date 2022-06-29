@@ -12,7 +12,10 @@ app.get('/tasks', (req, res) => {
 
 app.post('/tasks', (req, res) => {
   res.send(201)
-  return req.body.value = 'ты лох';
+  const task = req.body
+  task.value = ''
+  task.id = 0
+  return [...tasks, task]
 })
 
 app.listen(port, () => {
