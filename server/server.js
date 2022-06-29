@@ -11,13 +11,15 @@ app.get('/tasks', (req, res) => {
 })
 
 app.post('/tasks', (req, res) => {
+  res.send('ХУЕК')
+
   const task = req.body
-  task.value = " Какой-то таск"
+  task.value = req.query.value
   task.id = id++
 
   tasks.push(task)
   res.status(201)
-  res.send('ХУЕК')
+
 })
 
 app.listen(port, () => {
