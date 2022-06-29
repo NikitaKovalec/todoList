@@ -17,8 +17,11 @@ app.post('/tasks', (req, res) => {
   task.id = id++
 
   tasks.push(task)
-  res.send(201)
-
+  res.status(201)
+  res.send('ХУЕК')
+})
+app.put('/task/:id',(req, res) => {
+  res.send(req.params.id);
 })
 
 app.listen(port, () => {
