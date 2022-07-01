@@ -43,9 +43,8 @@ app.put('/tasks/:id/', (req, res) => {
 })
 
 app.delete('/tasks/:id/', (req, res) => {
-  delete tasks[req.params.id.toString()]
+  tasks.splice(req.params.id.toString(), 1)
   res.status(200).send("OK")
-  console.log(tasks)
 })
 
 app.listen(port, () => {
