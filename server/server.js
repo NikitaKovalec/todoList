@@ -11,7 +11,7 @@ app.get('/tasks/', (req, res) => {
   res.json(tasks)
 })
 
-app.post('/tasks', (req, res) => {
+app.post('/tasks/', (req, res) => {
   if (req.body.value) {
     const task = {}
     task.value = req.body.value
@@ -27,11 +27,10 @@ app.post('/tasks', (req, res) => {
 })
 
 app.put('/tasks/:id/', (req, res) => {
-  let task = tasks.find(obj => obj.id === req.params.id);
+  let task = tasks.find(task => task.id === task.params.id);
 
   if(task){
-    task.id = newTask.id
-    task.value = newTask.value
+    task.value = req.body.value
 
     res.json(task)
   } else {
