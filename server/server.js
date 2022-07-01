@@ -11,7 +11,6 @@ app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
   res.json(tasks)
-  console.log(req.params.id)
 })
 
 app.post('/tasks', (req, res) => {
@@ -29,11 +28,16 @@ app.post('/tasks', (req, res) => {
 })
 
 app.put('/tasks/:id/', (req, res) => {
-  req.params.id = task.id
+  newTask.id = tasks.find(obj => obj.id === req.params.id);
 
-  task.id = newTask.id
-  task.value = newTask.value
-  res.send(JSON.stringify(task))
+  if(newTask.id){
+    task.id = newTask.id
+    task.value = newTask.value
+
+    res.send(JSON.stringify(task))
+  } else {
+    res.status(400).send('Не найдено')
+  }
 })
 
 app.listen(port, () => {
