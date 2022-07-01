@@ -26,6 +26,19 @@ app.post('/tasks', (req, res) => {
   }
 })
 
+app.put('/tasks/:id/', (req, res) => {
+  let task = tasks.find(obj => obj.id === req.params.id);
+
+  if(task){
+    task.id = newTask.id
+    task.value = newTask.value
+
+    res.json(task)
+  } else {
+    res.status(400).send('Не найдено')
+  }
+})
+
 app.listen(port, () => {
   console.log(`has been started on port ${port}...`)
 })
