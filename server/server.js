@@ -27,7 +27,7 @@ app.post('/tasks/', (req, res) => {
 })
 
 app.put('/tasks/:id/', (req, res) => {
-  let task = tasks.find(obj => obj.id.toString() === req.params.id);
+  const task = tasks.find(obj => obj.id.toString() === req.params.id)
 
   if (task) {
     if (req.body.value) {
@@ -43,8 +43,9 @@ app.put('/tasks/:id/', (req, res) => {
 })
 
 app.delete('/tasks/:id/', (req, res) => {
-  let item = tasks.findIndex(obj => obj.id.toString() === req.params.id);
-  tasks.splice(item, 1)
+  const index = tasks.findIndex(obj => obj.id.toString() === req.params.id)
+
+  tasks.splice(index, 1)
   res.status(200).send("OK")
 })
 
