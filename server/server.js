@@ -27,12 +27,16 @@ app.post('/tasks/', (req, res) => {
 })
 
 app.put('/tasks/:id/', (req, res) => {
-  let task = tasks.find(obj => obj.id === +req.params.id);
+  let task = tasks.find(obj => obj.id.toString() === req.params.id);
 
-  if(task){
-    task.value = req.body.value
+  if (task) {
+    if (req.body.value) {
+      task.value = req.body.value
 
-    res.json(task)
+      res.json(task)
+    }else {
+      res.status(400).send('Поле value обязательно')
+    }
   } else {
     res.status(404).send('Не найдено')
   }
