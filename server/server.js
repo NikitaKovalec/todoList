@@ -3,7 +3,7 @@ const app = express()
 const port = 3100
 const tasks = []
 
-id = 0
+id = 1
 
 app.use(express.json())
 
@@ -43,8 +43,8 @@ app.put('/tasks/:id/', (req, res) => {
 })
 
 app.delete('/tasks/:id/', (req, res) => {
-  let item = tasks.findIndex(obj => obj.id === req.params.id);
-  tasks.splice(item)
+  let item = tasks.findIndex(obj => obj.id.toString() === req.params.id);
+  tasks.splice(item, 1)
   res.status(200).send("OK")
 })
 
