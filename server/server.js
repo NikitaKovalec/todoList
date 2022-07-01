@@ -27,15 +27,16 @@ app.post('/tasks/', (req, res) => {
 })
 
 app.put('/tasks/:id/', (req, res) => {
-  let task = tasks.find(task => task.id === task.params.id);
+  let task = tasks.find(obj => obj.id === req.params.id);
 
   if(task){
     task.value = req.body.value
 
     res.json(task)
   } else {
-    res.status(400).send('Не найдено')
+    res.status(404).send('Не найдено')
   }
+
 })
 
 app.listen(port, () => {
