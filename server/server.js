@@ -40,7 +40,11 @@ app.put('/tasks/:id/', (req, res) => {
   } else {
     res.status(404).send('Не найдено')
   }
+})
 
+app.delete('/tasks/:id/', (req, res) => {
+  tasks.filter(obj => obj.id.toString() !== req.params.id)
+  res.status(200).send("OK")
 })
 
 app.listen(port, () => {
