@@ -43,7 +43,8 @@ app.put('/tasks/:id/', (req, res) => {
 })
 
 app.delete('/tasks/:id/', (req, res) => {
-  tasks.splice(req.params.id.toString(), 1)
+  let item = tasks.findIndex(obj => obj.id === req.params.id);
+  tasks.splice(item)
   res.status(200).send("OK")
 })
 
