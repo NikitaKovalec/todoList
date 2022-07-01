@@ -45,14 +45,16 @@ app.put('/tasks/:id/', (req, res) => {
 app.delete('/tasks/:id/', (req, res) => {
   const index = tasks.findIndex(obj => obj.id.toString() === req.params.id)
 
-  if (!index) {
+  if (index > 0) {
     tasks.splice(index, 1)
     res.status(200).send("OK")
   } else {
     res.status(404).send('Не найдено')
   }
+  console.log(index)
 })
 
 app.listen(port, () => {
   console.log(`has been started on port ${port}...`)
 })
+
