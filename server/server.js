@@ -45,7 +45,7 @@ app.put('/tasks/:id/', (req, res) => {
 app.delete('/tasks/:id/', (req, res) => {
   const index = tasks.findIndex(obj => obj.id.toString() === req.params.id)
 
-  if (index > 0) {
+  if (index !== -1) {
     tasks.splice(index, 1)
     res.status(200).send("OK")
   } else {
