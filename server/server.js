@@ -45,8 +45,12 @@ app.put('/tasks/:id/', (req, res) => {
 app.delete('/tasks/:id/', (req, res) => {
   const index = tasks.findIndex(obj => obj.id.toString() === req.params.id)
 
-  tasks.splice(index, 1)
-  res.status(200).send("OK")
+  if (!index) {
+    tasks.splice(index, 1)
+    res.status(200).send("OK")
+  } else {
+    res.status(404).send('Не найдено')
+  }
 })
 
 app.listen(port, () => {
