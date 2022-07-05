@@ -11,6 +11,7 @@
 # production
 /build
 .idea
+/server/taskList.json
 
 # misc
 .DS_Store

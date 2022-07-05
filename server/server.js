@@ -1,14 +1,22 @@
 const express = require('express')
 const app = express()
+const fs = require('fs')
 const port = 3100
-const tasks = []
+let tasks = []
 
 id = 1
 
 app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
-  res.json(tasks)
+  fs.readFileSync('taskList.json', (err, data) => {
+    if (!err) {
+      tasks = JSON.parse(data)
+      res.json(tasks)
+    } else {
+      console.log('Ошибка чтения', err)
+    }
+  })
 })
 
 app.post('/tasks/', (req, res) => {
@@ -20,7 +28,13 @@ app.post('/tasks/', (req, res) => {
     tasks.push(task)
     res.status(201)
 
-    res.json(task)
+    fs.writeFileSync('taskList.json', JSON.stringify(task), 'utf-8', err => {
+      if (!err) {
+        res.json(task)
+      } else {
+        console.log('Ошибка записи', err)
+      }
+    })
   } else {
     res.status(400).send('Поле value обязательно')
   }
@@ -34,7 +48,7 @@ app.put('/tasks/:id/', (req, res) => {
       task.value = req.body.value
 
       res.json(task)
-    }else {
+    } else {
       res.status(400).send('Поле value обязательно')
     }
   } else {
@@ -51,7 +65,6 @@ app.delete('/tasks/:id/', (req, res) => {
   } else {
     res.status(404).send('Не найдено')
   }
-  console.log(index)
 })
 
 app.listen(port, () => {
