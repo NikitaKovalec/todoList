@@ -25,13 +25,11 @@ app.post('/tasks/', (req, res) => {
     task.value = req.body.value
     task.id = id++
 
-    fs.writeFileSync('taskList.json', JSON.stringify(task), 'utf-8', err => {
-      if (err) {
+    tasks.push(task)
+    res.json(task)
+
+    fs.writeFileSync('taskList.json', JSON.stringify(tasks), 'utf-8', err => {
         console.log('Ошибка записи', err)
-      } else {
-        tasks.push(task)
-        res.json(task)
-      }
     })
     res.status(201).send('Записано')
   } else {
