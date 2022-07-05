@@ -6,30 +6,46 @@ let tasks = []
 
 id = 1
 
+const stat = fs.statSync('taskList.json')
+
 app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
-  try {
-    res.json(JSON.parse(fs.readFileSync('taskList.json', 'utf-8')))
-  } catch (err) {
-    console.log('Ошибка чтения', err)
+  if (stat.size !== 0) {
+    try {
+      res.json(JSON.parse(fs.readFileSync('taskList.json', 'utf-8')))
+    } catch (err) {
+      console.log('Ошибка чтения', err)
+    }
+  } else {
+    res.json(tasks)
   }
 })
 
 app.post('/tasks/', (req, res) => {
   if (req.body.value) {
     const task = {}
-    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
-    try {
+    if (stat.size !== 0) {
+      tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+      try {
+        task.value = req.body.value
+        task.id = tasks[tasks.length - 1].id + 1
+
+        tasks.push(task)
+        res.json(task)
+
+        fs.writeFileSync('taskList.json', JSON.stringify(tasks))
+      } catch (err) {
+        console.log('Ошибка записи', err)
+      }
+    } else {
       task.value = req.body.value
-      task.id = tasks[tasks.length - 1].id + 1
+      task.id = id++
 
       tasks.push(task)
       res.json(task)
 
       fs.writeFileSync('taskList.json', JSON.stringify(tasks))
-    } catch (err) {
-      console.log('Ошибка записи', err)
     }
 
   } else {
