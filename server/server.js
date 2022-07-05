@@ -6,7 +6,11 @@ let tasks = []
 const stat = fs.statSync('taskList.json')
 
 if (stat.size !== 0) {
-  tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+  try {
+    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+  } catch (err) {
+    console.log('Ошибка чтения', err)
+  }
 }
 
 id = 1
@@ -14,15 +18,7 @@ id = 1
 app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
-  if (stat.size !== 0) {
-    try {
-      res.json(tasks)
-    } catch (err) {
-      console.log('Ошибка чтения', err)
-    }
-  } else {
-    res.json(tasks)
-  }
+  res.json(tasks)
 })
 
 app.post('/tasks/', (req, res) => {
