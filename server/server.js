@@ -13,7 +13,7 @@ if (stat.size !== 0) {
   }
 }
 
-id = 1
+id = tasks.length
 
 app.use(express.json())
 
@@ -26,11 +26,7 @@ app.post('/tasks/', (req, res) => {
     const task = {}
     try {
       task.value = req.body.value
-      if (stat.size !== 0) {
-        task.id = tasks[tasks.length - 1].id + 1
-      } else {
-        task.id = id++
-      }
+      task.id = id++
 
       tasks.push(task)
       res.json(task)
