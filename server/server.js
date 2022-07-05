@@ -24,28 +24,21 @@ app.get('/tasks/', (req, res) => {
 app.post('/tasks/', (req, res) => {
   if (req.body.value) {
     const task = {}
-    if (stat.size !== 0) {
-      try {
-        task.value = req.body.value
-        task.id = tasks[tasks.length - 1].id + 1
-
-        tasks.push(task)
-        res.json(task)
-
-        fs.writeFileSync('taskList.json', JSON.stringify(tasks))
-      } catch (err) {
-        console.log('Ошибка записи', err)
-      }
-    } else {
+    try {
       task.value = req.body.value
-      task.id = id++
+      if (stat.size !== 0) {
+        task.id = tasks[tasks.length - 1].id + 1
+      } else {
+        task.id = id++
+      }
 
       tasks.push(task)
       res.json(task)
 
       fs.writeFileSync('taskList.json', JSON.stringify(tasks))
+    } catch (err) {
+      console.log('Ошибка записи', err)
     }
-
   } else {
     res.status(400).send('Поле value обязательно')
   }
