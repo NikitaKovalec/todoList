@@ -56,11 +56,16 @@ app.post('/tasks/', (req, res) => {
 app.put('/tasks/:id/', (req, res) => {
   const task = tasks.find(obj => obj.id.toString() === req.params.id)
 
+  if (stat.size !== 0) {
+    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+  }
+
   if (task) {
     if (req.body.value) {
       task.value = req.body.value
 
       res.json(task)
+      fs.writeFileSync('taskList.json', JSON.stringify(tasks))
     } else {
       res.status(400).send('Поле value обязательно')
     }
@@ -72,8 +77,13 @@ app.put('/tasks/:id/', (req, res) => {
 app.delete('/tasks/:id/', (req, res) => {
   const index = tasks.findIndex(obj => obj.id.toString() === req.params.id)
 
+  if (stat.size !== 0) {
+    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+  }
+
   if (index !== -1) {
     tasks.splice(index, 1)
+    fs.writeFileSync('taskList.json', JSON.stringify(tasks))
     res.status(200).send("OK")
   } else {
     res.status(404).send('Не найдено')
