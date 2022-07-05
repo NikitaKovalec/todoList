@@ -13,8 +13,8 @@ app.get('/tasks/', (req, res) => {
     if (err) {
       console.log('Ошибка чтения', err)
     } else {
-        tasks = JSON.parse(data)
-        res.json(tasks)
+      tasks = JSON.parse(data)
+      res.json(tasks)
     }
   })
 })
@@ -29,7 +29,7 @@ app.post('/tasks/', (req, res) => {
     res.json(task)
 
     fs.writeFileSync('taskList.json', JSON.stringify(tasks), 'utf-8', err => {
-        console.log('Ошибка записи', err)
+      console.log('Ошибка записи', err)
     })
     res.status(201).send('Записано')
   } else {
