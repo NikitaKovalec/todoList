@@ -10,8 +10,7 @@ app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
   try {
-    let data = fs.readFileSync('taskList.json', 'utf-8')
-    res.json(JSON.parse(data) || tasks)
+    res.json(JSON.parse(fs.readFileSync('taskList.json', 'utf-8')))
   } catch (err) {
     console.log('Ошибка чтения', err)
   }
@@ -20,13 +19,19 @@ app.get('/tasks/', (req, res) => {
 app.post('/tasks/', (req, res) => {
   if (req.body.value) {
     const task = {}
-    task.value = req.body.value
-    task.id = id++
+    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+    try {
+      task.value = req.body.value
+      task.id = tasks[tasks.length - 1].id + 1
 
-    tasks.push(task)
-    res.json(task)
+      tasks.push(task)
+      res.json(task)
 
-    fs.writeFileSync('taskList.json', JSON.stringify(tasks))
+      fs.writeFileSync('taskList.json', JSON.stringify(tasks))
+    } catch (err) {
+      console.log('Ошибка записи', err)
+    }
+
   } else {
     res.status(400).send('Поле value обязательно')
   }
