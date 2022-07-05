@@ -16,7 +16,7 @@ app.use(express.json())
 app.get('/tasks/', (req, res) => {
   if (stat.size !== 0) {
     try {
-      res.json(JSON.parse(fs.readFileSync('taskList.json', 'utf-8')))
+      res.json(tasks)
     } catch (err) {
       console.log('Ошибка чтения', err)
     }
