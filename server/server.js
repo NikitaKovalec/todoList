@@ -9,8 +9,12 @@ id = 1
 app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
-  let data = fs.readFileSync('taskList.json', 'utf-8')
-  res.json(JSON.parse(data) || tasks)
+  try {
+    let data = fs.readFileSync('taskList.json', 'utf-8')
+    res.json(JSON.parse(data) || tasks)
+  } catch (err) {
+    console.log('Ошибка чтения', err)
+  }
 })
 
 app.post('/tasks/', (req, res) => {
