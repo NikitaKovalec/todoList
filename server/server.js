@@ -9,14 +9,8 @@ id = 1
 app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
-  fs.readFileSync('taskList.json', (err, data) => {
-    if (err) {
-      console.log('Ошибка чтения', err)
-    } else {
-      tasks = JSON.parse(data)
-      res.json(tasks)
-    }
-  })
+  let data = fs.readFileSync('taskList.json', 'utf-8')
+  res.json(JSON.parse(data) || tasks)
 })
 
 app.post('/tasks/', (req, res) => {
@@ -28,10 +22,7 @@ app.post('/tasks/', (req, res) => {
     tasks.push(task)
     res.json(task)
 
-    fs.writeFileSync('taskList.json', JSON.stringify(tasks), 'utf-8', err => {
-      console.log('Ошибка записи', err)
-    })
-    res.status(201).send('Записано')
+    fs.writeFileSync('taskList.json', JSON.stringify(tasks))
   } else {
     res.status(400).send('Поле value обязательно')
   }
