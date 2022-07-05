@@ -3,10 +3,13 @@ const app = express()
 const fs = require('fs')
 const port = 3100
 let tasks = []
+const stat = fs.statSync('taskList.json')
+
+if (stat.size !== 0) {
+  tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+}
 
 id = 1
-
-const stat = fs.statSync('taskList.json')
 
 app.use(express.json())
 
@@ -56,10 +59,6 @@ app.post('/tasks/', (req, res) => {
 app.put('/tasks/:id/', (req, res) => {
   const task = tasks.find(obj => obj.id.toString() === req.params.id)
 
-  if (stat.size !== 0) {
-    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
-  }
-
   if (task) {
     if (req.body.value) {
       task.value = req.body.value
@@ -76,10 +75,6 @@ app.put('/tasks/:id/', (req, res) => {
 
 app.delete('/tasks/:id/', (req, res) => {
   const index = tasks.findIndex(obj => obj.id.toString() === req.params.id)
-
-  if (stat.size !== 0) {
-    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
-  }
 
   if (index !== -1) {
     tasks.splice(index, 1)
