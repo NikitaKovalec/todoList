@@ -29,7 +29,6 @@ app.post('/tasks/', (req, res) => {
   if (req.body.value) {
     const task = {}
     if (stat.size !== 0) {
-      tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
       try {
         task.value = req.body.value
         task.id = tasks[tasks.length - 1].id + 1
