@@ -4,9 +4,8 @@ const fs = require('fs')
 const port = 3100
 let tasks = []
 const stat = fs.statSync('taskList.json')
-const path = 'taskId.json'
 
-if (!fs.existsSync(path)) {
+if (!fs.existsSync('taskId.json')) {
   fs.writeFileSync('taskId.json', '0')
 }
 
