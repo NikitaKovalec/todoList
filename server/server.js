@@ -17,13 +17,7 @@ if (stat.size !== 0) {
   }
 }
 
-let newId = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
-
-if (newId !== 0) {
-  id = newId + 1
-} else {
-  id = 1
-}
+let id = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
 
 app.use(express.json())
 
@@ -33,16 +27,17 @@ app.get('/tasks/', (req, res) => {
 
 app.post('/tasks/', (req, res) => {
   if (req.body.value) {
+    let nextId = id + 1
     const task = {}
 
     task.value = req.body.value
-    task.id = id++
+    task.id = ++id
 
     tasks.push(task)
     res.json(task)
     try {
       fs.writeFileSync('taskList.json', JSON.stringify(tasks))
-      fs.writeFileSync('taskId.json', JSON.stringify(task.id))
+      fs.writeFileSync('taskId.json', JSON.stringify(nextId))
     } catch (err) {
       console.log('Ошибка записи', err)
     }
