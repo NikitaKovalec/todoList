@@ -6,7 +6,8 @@ let tasks = []
 
 if (!fs.existsSync('nextTaskId.json')) {
   fs.writeFileSync('nextTaskId.json', '1')
-} if (!fs.existsSync('taskList.json')) {
+}
+if (!fs.existsSync('taskList.json')) {
   fs.writeFileSync('taskList.json', '')
 }
 
