@@ -28,8 +28,12 @@ app.post('/tasks/', (req, res) => {
     nextTaskId++
 
     try {
-      tasks.push(task)
-      fs.writeFileSync('taskList.json', JSON.stringify(tasks))
+      try {
+        tasks.push(task)
+        fs.writeFileSync('taskList.json', JSON.stringify(tasks))
+      } catch (err) {
+        res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
+      }
       fs.writeFileSync('nextTaskId.json', JSON.stringify(nextTaskId))
       res.json(task)
     } catch (err) {
