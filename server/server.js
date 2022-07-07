@@ -11,9 +11,7 @@ if (!fs.existsSync('taskList.json')) {
   fs.writeFileSync('taskList.json', '')
 }
 
-const stat = fs.statSync('taskList.json')
-
-if (stat.size !== 0) {
+if (fs.readFileSync('taskList.json', 'utf-8')) {
   try {
     tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
   } catch (err) {
