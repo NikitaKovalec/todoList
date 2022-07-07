@@ -12,11 +12,12 @@ if (!fs.existsSync('taskList.json')) {
 
 let tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
 let nextTaskId = JSON.parse(fs.readFileSync('nextTaskId.json', 'utf-8'))
+let newTasks = [...tasks]
 
 app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
-  res.json(tasks)
+  res.json(newTasks)
 })
 
 app.post('/tasks/', (req, res) => {
@@ -28,8 +29,8 @@ app.post('/tasks/', (req, res) => {
     nextTaskId++
 
     try {
-      fs.writeFileSync('taskList.json', JSON.stringify(tasks))
-      tasks.push(task)
+      newTasks.push(task)
+      fs.writeFileSync('taskList.json', JSON.stringify(newTasks))
       fs.writeFileSync('nextTaskId.json', JSON.stringify(nextTaskId))
       res.json(task)
     } catch (err) {
