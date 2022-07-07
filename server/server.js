@@ -27,7 +27,6 @@ app.get('/tasks/', (req, res) => {
 
 app.post('/tasks/', (req, res) => {
   if (req.body.value) {
-    let nextId = id + 1
     const task = {}
 
     task.value = req.body.value
@@ -37,7 +36,7 @@ app.post('/tasks/', (req, res) => {
     res.json(task)
     try {
       fs.writeFileSync('taskList.json', JSON.stringify(tasks))
-      fs.writeFileSync('taskId.json', JSON.stringify(nextId))
+      fs.writeFileSync('taskId.json', JSON.stringify(id))
     } catch (err) {
       console.log('Ошибка записи', err)
     }
