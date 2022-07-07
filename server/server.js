@@ -6,7 +6,7 @@ let tasks = []
 const stat = fs.statSync('taskList.json')
 
 if (!fs.existsSync('taskId.json')) {
-  fs.writeFileSync('taskId.json', '0')
+  fs.writeFileSync('taskId.json', '1')
 }
 
 if (stat.size !== 0) {
@@ -17,7 +17,7 @@ if (stat.size !== 0) {
   }
 }
 
-let id = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
+let nextTaskId = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
 
 app.use(express.json())
 
@@ -30,13 +30,14 @@ app.post('/tasks/', (req, res) => {
     const task = {}
 
     task.value = req.body.value
-    task.id = ++id
+    task.id = nextTaskId
+    nextTaskId++
 
     tasks.push(task)
     res.json(task)
     try {
       fs.writeFileSync('taskList.json', JSON.stringify(tasks))
-      fs.writeFileSync('taskId.json', JSON.stringify(id))
+      fs.writeFileSync('taskId.json', JSON.stringify(nextTaskId))
     } catch (err) {
       console.log('Ошибка записи', err)
     }
