@@ -27,15 +27,17 @@ app.post('/tasks/', (req, res) => {
     task.id = nextTaskId
     nextTaskId++
 
-    res.json(task)
     try {
       fs.writeFileSync('taskList.json', JSON.stringify(tasks))
       fs.writeFileSync('nextTaskId.json', JSON.stringify(nextTaskId))
     } catch (err) {
       res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
     }
+
     tasks.push(task)
     fs.writeFileSync('taskList.json', JSON.stringify(tasks))
+    res.json(task)
+
 
   } else {
     res.status(400).send('Поле value обязательно')
