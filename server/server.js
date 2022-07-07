@@ -8,7 +8,7 @@ const stat = fs.statSync('taskList.json')
 
 newId = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
 
-if (newId !== 1) {
+if (newId !== 0) {
   id = newId + 1
 } else {
   id = 1
