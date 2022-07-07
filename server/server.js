@@ -3,11 +3,14 @@ const app = express()
 const fs = require('fs')
 const port = 3100
 let tasks = []
-const stat = fs.statSync('taskList.json')
 
 if (!fs.existsSync('nextTaskId.json')) {
   fs.writeFileSync('nextTaskId.json', '1')
+} if (!fs.existsSync('taskList.json')) {
+  fs.writeFileSync('taskList.json', '')
 }
+
+const stat = fs.statSync('taskList.json')
 
 if (stat.size !== 0) {
   try {

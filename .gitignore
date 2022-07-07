@@ -12,7 +12,7 @@
 /build
 .idea
 /server/taskList.json
-/server/taskId.json
+/server/nextTaskId.json
 
 # misc
 .DS_Store
