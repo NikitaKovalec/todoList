@@ -5,6 +5,15 @@ const port = 3100
 let tasks = []
 const stat = fs.statSync('taskList.json')
 
+if (stat.size !== 0) {
+  try {
+    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
+  } catch (err) {
+    console.log('Ошибка чтения', err)
+  }
+} else {
+  fs.writeFileSync('taskId.json', '0')
+}
 
 newId = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
 
@@ -12,14 +21,6 @@ if (newId !== 0) {
   id = newId + 1
 } else {
   id = 1
-}
-
-if (stat.size !== 0) {
-  try {
-    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
-  } catch (err) {
-    console.log('Ошибка чтения', err)
-  }
 }
 
 app.use(express.json())
