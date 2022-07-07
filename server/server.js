@@ -2,23 +2,15 @@ const express = require('express')
 const app = express()
 const fs = require('fs')
 const port = 3100
-let tasks = []
 
 if (!fs.existsSync('nextTaskId.json')) {
   fs.writeFileSync('nextTaskId.json', '1')
 }
 if (!fs.existsSync('taskList.json')) {
-  fs.writeFileSync('taskList.json', '')
+  fs.writeFileSync('taskList.json', '[]')
 }
 
-if (fs.readFileSync('taskList.json', 'utf-8')) {
-  try {
-    tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
-  } catch (err) {
-    console.log('Ошибка чтения', err)
-  }
-}
-
+let tasks = JSON.parse(fs.readFileSync('taskList.json', 'utf-8'))
 let nextTaskId = JSON.parse(fs.readFileSync('nextTaskId.json', 'utf-8'))
 
 app.use(express.json())
