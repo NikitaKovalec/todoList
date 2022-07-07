@@ -4,6 +4,11 @@ const fs = require('fs')
 const port = 3100
 let tasks = []
 const stat = fs.statSync('taskList.json')
+const path = 'taskId.json'
+
+if (!fs.existsSync(path)) {
+  fs.writeFileSync('taskId.json', '0')
+}
 
 if (stat.size !== 0) {
   try {
@@ -11,8 +16,6 @@ if (stat.size !== 0) {
   } catch (err) {
     console.log('Ошибка чтения', err)
   }
-} else {
-  fs.writeFileSync('taskId.json', '0')
 }
 
 newId = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
