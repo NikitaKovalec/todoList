@@ -17,7 +17,7 @@ if (stat.size !== 0) {
   }
 }
 
-newId = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
+let newId = JSON.parse(fs.readFileSync('taskId.json', 'utf-8'))
 
 if (newId !== 0) {
   id = newId + 1
