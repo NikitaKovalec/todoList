@@ -1,7 +1,9 @@
 const express = require('express')
 const app = express()
+const cors = require('cors')
 const fs = require('fs')
 const port = 3100
+app.use(cors())
 
 if (!fs.existsSync('nextTaskId.json')) {
     fs.writeFileSync('nextTaskId.json', '1')
