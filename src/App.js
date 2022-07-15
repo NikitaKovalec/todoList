@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react';
 import Task from './Components/Task';
 import Form from './Components/Form';
 
-let id = 0
-
 function App() {
-  let [arr, setArr] = useState([])
+  let [tasks, setTasks] = useState([])
   let [value, setValue] = useState("")
   let [isLoading, setIsLoading] = useState(true)
   let [isError, setIsError] = useState(false)
@@ -17,7 +15,7 @@ function App() {
       })
       if (response.ok) {
         const data = await response.json()
-        setArr(data)
+        setTasks(data)
       } else {
         throw 'err'
       }
@@ -29,26 +27,39 @@ function App() {
     }
   }
 
-
   useEffect(() => {
     fetchingTasks()
   }, [])
 
   function del(id) {
     if (window.confirm("Удаляю?")) {
-      setArr(arr.filter(obj => obj.id !== id))
+      setTasks(tasks.filter(obj => obj.id !== id))
     }
   }
 
   function changeValue(id, inputValue) {
-    let findValue = arr.find(obj => obj.id === id)
+    let findValue = tasks.find(obj => obj.id === id)
     findValue.value = inputValue
-    setArr([...arr])
+    setTasks([...tasks])
   }
 
-  function save() {
-    id += 1
-    setArr([...arr, {value, id}])
+  async function save() {
+    try {
+      await fetch('http://localhost:3100/tasks', {
+        mode: 'cors',
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({value})
+      })
+    } catch (e) {
+      console.log('Ошибка при создании')
+      setIsError(true)
+    } finally {
+      setIsLoading(false)
+    }
+    setTasks([...tasks, {value}])
     setValue("")
   }
 
@@ -56,10 +67,12 @@ function App() {
     <Form setValue={setValue}
           save={save}
           value={value}
+          isLoading={isLoading}
+          isError={isError}
     />
     {isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
     {isLoading ? <div style={{marginLeft: 15}}>Загрузка данных...</div> :
-      arr.map(({value, id}) =>
+      tasks.map(({value, id}) =>
         <Task key={id}
               id={id}
               value={value}

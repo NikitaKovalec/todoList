@@ -1,5 +1,5 @@
-function Form({value, setValue, save}) {
-  const disabled = !value
+function Form({value, setValue, save, isLoading, isError}) {
+  const disabled = !value && !isError
 
   return <>
     <input
@@ -26,7 +26,7 @@ function Form({value, setValue, save}) {
         fontSize: 16
       }}
     >
-      Добавить
+      {isLoading ? 'Добавляю...' : 'Добавить'}
     </button>
   </>
 }
