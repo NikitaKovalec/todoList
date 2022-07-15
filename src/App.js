@@ -12,29 +12,23 @@ function App() {
 
   const fetchingTasks = async () => {
     try {
-      const response = await fetch('http://localhost:3100/tasaks', {
+      const response = await fetch('http://localhost:3100/tasks', {
         mode: 'cors'
       })
       if (response.ok) {
         const data = await response.json()
-        setArr(JSON.parse(JSON.stringify(data)))
-        setIsLoading(false)
+        setArr(data)
       } else {
         throw 'err'
       }
     } catch (e) {
       console.log('Ошибка загрузки тасков')
       setIsError(true)
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  function isLoadingOrError () {
-    if (arr) {
-      return 'Загрузка данных...'
-    } else {
-      return 'Ошибка загрузки данных'
-    }
-  }
 
   useEffect(() => {
     fetchingTasks()
