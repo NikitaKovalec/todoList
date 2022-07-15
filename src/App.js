@@ -41,9 +41,13 @@ function App() {
         },
         body: JSON.stringify({value})
       })
-      const res = await response.json()
-      let id = res.id
-      setTasks([...tasks, {value, id}])
+      if (response.ok) {
+        const res = await response.json()
+        let id = res.id
+        setTasks([...tasks, {value, id}])
+      } else {
+        throw 'err'
+      }
     } catch (e) {
       console.log('Ошибка при создании')
       setIsError(true)
@@ -57,7 +61,6 @@ function App() {
     let findValue = tasks.find(obj => obj.id === id)
     findValue.value = inputValue
     setTasks([...tasks])
-    console.log(tasks)
   }
 
   function del(id) {
