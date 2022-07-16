@@ -33,8 +33,9 @@ function App() {
   }, [])
 
   async function save() {
+    setIsErrorSave(false)
     try {
-      const response = await fetch('http://localhost:3100/tasks', {
+      const response = await fetch('http://localhost:3100/tassks', {
         mode: 'cors',
         method: 'POST',
         headers: {
@@ -75,7 +76,6 @@ function App() {
           value={value}
           isLoading={isLoading}
           isErrorSave={isErrorSave}
-          setIsErrorSave={setIsErrorSave}
     />
     {isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
     {isLoading ? <div style={{marginLeft: 15}}>Загрузка данных...</div> :
