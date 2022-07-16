@@ -42,9 +42,8 @@ function App() {
         body: JSON.stringify({value})
       })
       if (response.ok) {
-        const res = await response.json()
-        let id = res.id
-        setTasks([...tasks, {value, id}])
+        const newTasks = await response.json()
+        setTasks([...tasks, newTasks])
       } else {
         throw 'err'
       }

@@ -1,5 +1,5 @@
-function Form({value, setValue, save, isLoading, isError}) {
-  const disabled = !value && !isError
+function Form({value, setValue, save, isLoading}) {
+  const disabled = !value
 
   return <>
     <input
@@ -21,6 +21,7 @@ function Form({value, setValue, save, isLoading, isError}) {
         border: "none",
         borderRadius: 5,
         background: disabled ? "#333333" : "#4676D7",
+        marginRight: 10,
         color: "#fff",
         padding: "15px 20px",
         fontSize: 16
