@@ -1,7 +1,7 @@
 import React from "react";
 
-function Form({value, setValue, save, isLoading, isErrorSave}) {
-  const disabled = !value && !isLoading
+function Form({value, setValue, save, isSaving, isErrorSave}) {
+  const disabled = !value && !isSaving
 
   return <>
     <input
@@ -29,7 +29,7 @@ function Form({value, setValue, save, isLoading, isErrorSave}) {
         fontSize: 16
       }}
     >
-      {isLoading ? 'Добавляю...' : 'Добавить'}
+      {isSaving ? 'Добавляю...' : 'Добавить'}
     </button>
     {isErrorSave ? <div style={{marginLeft: 15}}>Ошибка при создании...</div> : <></>}
   </>

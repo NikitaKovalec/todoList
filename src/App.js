@@ -6,6 +6,7 @@ function App() {
   let [tasks, setTasks] = useState([])
   let [value, setValue] = useState("")
   let [isLoading, setIsLoading] = useState(true)
+  let [isSaving, setIsSaving] = useState(false)
   let [isError, setIsError] = useState(false)
   let [isErrorSave, setIsErrorSave] = useState(false)
 
@@ -34,8 +35,9 @@ function App() {
 
   async function save() {
     setIsErrorSave(false)
+    setIsSaving(true)
     try {
-      const response = await fetch('http://localhost:3100/tassks', {
+      const response = await fetch('http://localhost:3100/tasks', {
         mode: 'cors',
         method: 'POST',
         headers: {
@@ -53,7 +55,7 @@ function App() {
       console.log('Ошибка при создании')
       setIsErrorSave(true)
     } finally {
-      setIsLoading(false)
+      setIsSaving(false)
     }
     setValue("")
   }
@@ -74,7 +76,7 @@ function App() {
     <Form setValue={setValue}
           save={save}
           value={value}
-          isLoading={isLoading}
+          isSaving={isSaving}
           isErrorSave={isErrorSave}
     />
     {isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
