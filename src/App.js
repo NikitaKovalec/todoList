@@ -7,6 +7,7 @@ function App() {
   let [value, setValue] = useState("")
   let [isLoading, setIsLoading] = useState(true)
   let [isError, setIsError] = useState(false)
+  let [isErrorSave, setIsErrorSave] = useState(false)
 
   const fetchingTasks = async () => {
     try {
@@ -49,7 +50,7 @@ function App() {
       }
     } catch (e) {
       console.log('Ошибка при создании')
-      setIsError(true)
+      setIsErrorSave(true)
     } finally {
       setIsLoading(false)
     }
@@ -73,7 +74,7 @@ function App() {
           save={save}
           value={value}
           isLoading={isLoading}
-          isError={isError}
+          isErrorSave={isErrorSave}
     />
     {isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
     {isLoading ? <div style={{marginLeft: 15}}>Загрузка данных...</div> :

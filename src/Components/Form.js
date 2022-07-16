@@ -1,4 +1,6 @@
-function Form({value, setValue, save, isLoading}) {
+import React from "react";
+
+function Form({value, setValue, save, isLoading, isErrorSave}) {
   const disabled = !value
 
   return <>
@@ -29,6 +31,7 @@ function Form({value, setValue, save, isLoading}) {
     >
       {isLoading ? 'Добавляю...' : 'Добавить'}
     </button>
+    {isErrorSave ? <div style={{marginLeft: 15}}>Ошибка при создании...</div> : <></>}
   </>
 }
 
