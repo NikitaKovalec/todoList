@@ -75,6 +75,7 @@ function App() {
           value={value}
           isLoading={isLoading}
           isErrorSave={isErrorSave}
+          setIsErrorSave={setIsErrorSave}
     />
     {isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
     {isLoading ? <div style={{marginLeft: 15}}>Загрузка данных...</div> :

@@ -1,7 +1,7 @@
 import React from "react";
 
-function Form({value, setValue, save, isLoading, isErrorSave}) {
-  const disabled = !value
+function Form({value, setValue, save, isLoading, isErrorSave, setIsErrorSave}) {
+  const disabled = !value && isErrorSave && !isLoading
 
   return <>
     <input
@@ -18,7 +18,7 @@ function Form({value, setValue, save, isLoading, isErrorSave}) {
     />
     <button
       disabled={disabled}
-      onClick={save}
+      onClick={isErrorSave ? () => setIsErrorSave(false) : save}
       style={{
         border: "none",
         borderRadius: 5,
