@@ -67,7 +67,6 @@ function App() {
   }
 
   async function del(id) {
-    setIsSaving(true)
     if (window.confirm("Удаляю?")) {
       try {
         const response = await fetch('http://localhost:3100/tasks/' + id, {
@@ -81,8 +80,6 @@ function App() {
         }
       } catch (e) {
         console.log('Ошибка при удалении')
-      } finally {
-        setIsSaving(false)
       }
     }
   }
@@ -102,7 +99,6 @@ function App() {
               value={value}
               changeValue={changeValue}
               del={del}
-              isSaving={isSaving}
         />
       )}
   </>
