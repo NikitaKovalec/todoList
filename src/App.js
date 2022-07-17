@@ -66,9 +66,26 @@ function App() {
     setTasks([...tasks])
   }
 
-  function del(id) {
+  async function del(id) {
+    setIsSaving(true)
     if (window.confirm("Удаляю?")) {
-      setTasks(tasks.filter(obj => obj.id !== id))
+      try {
+        const response = await fetch('http://localhost:3100/tasks/' + id, {
+          mode: 'cors',
+          method: 'DELETE'
+        })
+        if (response.ok) {
+          const data = await response.json()
+          setTasks(data)
+          setTasks(tasks.filter(obj => obj.id !== id))
+        } else {
+          throw 'err'
+        }
+      } catch (e) {
+        console.log('Ошибка при удалении')
+      } finally {
+        setIsSaving(false)
+      }
     }
   }
 
@@ -87,6 +104,7 @@ function App() {
               value={value}
               changeValue={changeValue}
               del={del}
+              isSaving={isSaving}
         />
       )}
   </>

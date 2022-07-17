@@ -1,8 +1,7 @@
 import React from "react";
 
 function Form({value, setValue, save, isSaving, isErrorSave}) {
-  const disabled = !value && !isSaving
-
+  const disabled = !value || isSaving
   return <>
     <input
       value={value}

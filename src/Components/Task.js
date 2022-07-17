@@ -1,8 +1,9 @@
 import React, {useState} from "react";
 
-function Task({id, del, value, changeValue}) {
+function Task({id, del, value, changeValue, isSaving}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
+  const disabled = isSaving
 
   function change() {
     changeValue(id, inputValue)
@@ -49,6 +50,7 @@ function Task({id, del, value, changeValue}) {
       </div>
     }
     <button
+      disabled={disabled}
       onClick={isEditing ? change : () => setIsEditing(true)}
       style={{
         width: 150,
@@ -57,7 +59,7 @@ function Task({id, del, value, changeValue}) {
         margin: "15px 5px 0px 0px",
         padding: "15px 20px",
         borderRadius: 4,
-        background: "#4676D7",
+        background: disabled ? "#333333" : "#4676D7",
         color: "#fff",
         fontSize: 16
       }}
@@ -78,7 +80,7 @@ function Task({id, del, value, changeValue}) {
         fontSize: 16
       }}
     >
-      Удалить
+      {isSaving ? 'Удаляю...' : 'Удалить'}
     </button>
   </div>
 }
