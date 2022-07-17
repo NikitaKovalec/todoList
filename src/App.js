@@ -75,8 +75,7 @@ function App() {
           method: 'DELETE'
         })
         if (response.ok) {
-          const data = await response.json()
-          setTasks(data)
+          setTasks(tasks.filter(obj => obj.id !== id))
         } else {
           throw 'err'
         }
@@ -85,7 +84,6 @@ function App() {
       } finally {
         setIsSaving(false)
       }
-      setTasks(tasks.filter(obj => obj.id !== id))
     }
   }
 
