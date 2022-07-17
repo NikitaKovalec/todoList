@@ -11,9 +11,10 @@ function Task({id, del, value, changeValue}) {
     setIsEditing(false)
   }
 
-  function taskRemover() {
+  async function removeTask() {
     setIsDeleting(true)
-    del(id, setIsDeleting)
+    await del(id)
+    setIsDeleting(false)
   }
 
   return <div
@@ -73,7 +74,7 @@ function Task({id, del, value, changeValue}) {
       {isEditing ? "Сохранить" : "Редактировать"}
     </button>
     <button
-      onClick={taskRemover}
+      onClick={removeTask}
       style={{
         width: 111,
         height: 52,
