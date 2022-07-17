@@ -66,7 +66,7 @@ function App() {
     setTasks([...tasks])
   }
 
-  async function del(id) {
+  async function del(id, setIsDeleting) {
     if (window.confirm("Удаляю?")) {
       try {
         const response = await fetch('http://localhost:3100/tasks/' + id, {
@@ -80,6 +80,7 @@ function App() {
         }
       } catch (e) {
         console.log('Ошибка при удалении')
+        setIsDeleting(false)
       }
     }
   }
