@@ -63,7 +63,10 @@ function App() {
   async function changeValue(id, inputValue) {
     let newTasks = [...tasks]
     let findValue = newTasks.find(obj => obj.id === id)
-    findValue.value = inputValue
+    let findIndex = newTasks.findIndex(obj => obj.id === id)
+    let newTask = {...findValue}
+    newTask.value = inputValue
+    newTasks.splice(findIndex, 1, newTask)
     try {
       const response = await fetch('http://localhost:3100/tasks/' + id, {
         mode: 'cors',
