@@ -74,11 +74,10 @@ function App() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(findValue)
+        body: JSON.stringify(newTask)
       })
       if (response.ok) {
-        tasks = newTasks
-        setTasks([...tasks])
+        setTasks(newTasks)
       } else {
         throw 'err'
       }
