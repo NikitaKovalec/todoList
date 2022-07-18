@@ -79,7 +79,6 @@ function App() {
       }
     } catch (e) {
       console.log('Ошибка при создании')
-      console.log(e)
       setIsErrorSave(true)
     }
   }
