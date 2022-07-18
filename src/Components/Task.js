@@ -4,10 +4,13 @@ function Task({id, del, value, changeValue}) {
   let [inputValue, setInputValue] = useState(value)
   let [isEditing, setIsEditing] = useState(false)
   let [isDeleting, setIsDeleting] = useState(false)
-  const disabled = isDeleting
+  let [isSaving, setIsSaving] = useState(false)
+  const disabled = isDeleting || isSaving
 
-  function change() {
-    changeValue(id, inputValue)
+  async function change() {
+    setIsSaving(true)
+    await changeValue(id, inputValue)
+    setIsSaving(false)
     setIsEditing(false)
   }
 
@@ -30,6 +33,7 @@ function Task({id, del, value, changeValue}) {
     </div>
     {isEditing ?
       <input
+        disabled={disabled}
         value={inputValue}
         onChange={(event) => setInputValue(event.target.value)}
         style={{
@@ -56,6 +60,24 @@ function Task({id, del, value, changeValue}) {
         {value}
       </div>
     }
+    { isEditing ?
+    <button
+      disabled={disabled}
+      onClick={change}
+      style={{
+        width: 150,
+        height: 52,
+        border: "none",
+        margin: "15px 5px 0px 0px",
+        padding: "15px 20px",
+        borderRadius: 4,
+        background: disabled ? "#333333" : "#4676D7",
+        color: "#fff",
+        fontSize: 16
+      }}
+    >
+      {isSaving ? 'Сохраняю...' : 'Сохранить'}
+    </button> :
     <button
       disabled={disabled}
       onClick={isEditing ? change : () => setIsEditing(true)}
@@ -71,9 +93,11 @@ function Task({id, del, value, changeValue}) {
         fontSize: 16
       }}
     >
-      {isEditing ? "Сохранить" : "Редактировать"}
+      Редактировать
     </button>
+    }
     <button
+      disabled={disabled}
       onClick={removeTask}
       style={{
         width: 111,
@@ -82,7 +106,7 @@ function Task({id, del, value, changeValue}) {
         marginTop: 15,
         padding: "15px 20px",
         borderRadius: 4,
-        background: "#d50000",
+        background: disabled ? "#333333" : "#d50000",
         color: "#fff",
         fontSize: 16
       }}

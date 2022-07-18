@@ -60,10 +60,28 @@ function App() {
     setValue("")
   }
 
-  function changeValue(id, inputValue) {
+  async function changeValue(id, inputValue) {
     let findValue = tasks.find(obj => obj.id === id)
     findValue.value = inputValue
-    setTasks([...tasks])
+    try {
+      const response = await fetch('http://localhost:3100/tasks/' + id, {
+        mode: 'cors',
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(findValue)
+      })
+      if (response.ok) {
+        setTasks([...tasks])
+      } else {
+        throw 'err'
+      }
+    } catch (e) {
+      console.log('Ошибка при создании')
+      console.log(e)
+      setIsErrorSave(true)
+    }
   }
 
   async function del(id) {
