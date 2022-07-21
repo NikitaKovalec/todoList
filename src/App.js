@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import {connect} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import Task from './Components/Task';
 import Form from './Components/Form';
+import addTaskList from "./redux/action";
 
 function App() {
   let [tasks, setTasks] = useState([])
@@ -10,14 +11,19 @@ function App() {
   let [isSaving, setIsSaving] = useState(false)
   let [isError, setIsError] = useState(false)
   let [isErrorSave, setIsErrorSave] = useState(false)
+  const dispatch = useDispatch()
+  const taskState = useSelector(state => state)
+  console.log(taskState)
 
   const fetchingTasks = async () => {
+    const addTasks = (arr) => dispatch(addTaskList(arr))
     try {
       const response = await fetch('http://localhost:3100/tasks', {
         mode: 'cors'
       })
       if (response.ok) {
         const data = await response.json()
+        addTasks(data)
         setTasks(data)
       } else {
         throw 'err'
@@ -126,4 +132,4 @@ function App() {
 }
 
 
-export default connect()(App);
+export default App;
