@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux'
 import Task from './Components/Task';
 import Form from './Components/Form';
 
@@ -124,4 +125,5 @@ function App() {
   </>
 }
 
-export default App;
+
+export default connect()(App);
