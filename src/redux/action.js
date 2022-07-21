@@ -1,8 +1,8 @@
-function addTaskList (tasks) {
+function setLoadedTasks (tasks) {
     return {
-        type: 'ADD_TASK_LIST',
+        type: 'LOAD_TASK_LIST',
         tasks
     }
 }
 
-export default addTaskList;
+export default setLoadedTasks;

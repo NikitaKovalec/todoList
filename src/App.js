@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import Task from './Components/Task';
 import Form from './Components/Form';
-import addTaskList from "./redux/action";
+import setLoadedTasks from "./redux/action";
 
 function App() {
   let [tasks, setTasks] = useState([])
@@ -16,14 +16,14 @@ function App() {
   console.log(taskState)
 
   const fetchingTasks = async () => {
-    const addTasks = (arr) => dispatch(addTaskList(arr))
+
     try {
       const response = await fetch('http://localhost:3100/tasks', {
         mode: 'cors'
       })
       if (response.ok) {
         const data = await response.json()
-        addTasks(data)
+        dispatch(setLoadedTasks(data))
         setTasks(data)
       } else {
         throw 'err'

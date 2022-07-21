@@ -4,12 +4,10 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import {Provider} from "react-redux";
-import tasks from './redux/reducer'
+import tasksReducer from './redux/reducer'
 import {createStore} from "redux";
 
-const store = createStore(tasks)
-
-
+const store = createStore(tasksReducer)
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
