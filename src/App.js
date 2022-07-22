@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import Task from './Components/Task';
 import Form from './Components/Form';
-import setLoadedTasks from "./redux/action";
+import {setLoadedTasks, addTasks} from "./redux/action";
 
 function App() {
   let [tasks, setTasks] = useState([])
@@ -13,10 +13,8 @@ function App() {
   let [isErrorSave, setIsErrorSave] = useState(false)
   const dispatch = useDispatch()
   const taskState = useSelector(state => state)
-  console.log(taskState)
 
   const fetchingTasks = async () => {
-
     try {
       const response = await fetch('http://localhost:3100/tasks', {
         mode: 'cors'
@@ -24,7 +22,7 @@ function App() {
       if (response.ok) {
         const data = await response.json()
         dispatch(setLoadedTasks(data))
-        setTasks(data)
+        // setTasks(data)
       } else {
         throw 'err'
       }
@@ -54,7 +52,8 @@ function App() {
       })
       if (response.ok) {
         const newTasks = await response.json()
-        setTasks([...tasks, newTasks])
+        dispatch(addTasks(newTasks))
+        // setTasks([...tasks, newTasks])
       } else {
         throw 'err'
       }
@@ -120,7 +119,7 @@ function App() {
     />
     {isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
     {isLoading ? <div style={{marginLeft: 15}}>Загрузка данных...</div> :
-      tasks.map(({value, id}) =>
+      taskState.map(({value, id}) =>
         <Task key={id}
               id={id}
               value={value}
