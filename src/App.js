@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import Task from './Components/Task';
 import Form from './Components/Form';
-import {setLoadedTasks, addTasks, delTasks} from "./redux/action";
+import {setLoadedTasks, addTask, delTask} from "./redux/action";
 
 function App() {
   let [value, setValue] = useState("")
@@ -11,7 +11,7 @@ function App() {
   let [isError, setIsError] = useState(false)
   let [isErrorSave, setIsErrorSave] = useState(false)
   const dispatch = useDispatch()
-  const taskState = useSelector(state => state)
+  const tasks = useSelector(state => state)
 
   const fetchingTasks = async () => {
     try {
@@ -21,7 +21,6 @@ function App() {
       if (response.ok) {
         const data = await response.json()
         dispatch(setLoadedTasks(data))
-        // setTasks(data)
       } else {
         throw 'err'
       }
@@ -51,7 +50,7 @@ function App() {
       })
       if (response.ok) {
         const newTasks = await response.json()
-        dispatch(addTasks(newTasks))
+        dispatch(addTask(newTasks))
       } else {
         throw 'err'
       }
@@ -65,7 +64,7 @@ function App() {
   }
 
   async function changeValue(id, inputValue) {
-    let newTasks = [...taskState]
+    let newTasks = [...tasks]
     let task = newTasks.find(obj => obj.id === id)
     let index = newTasks.findIndex(obj => obj.id === id)
     let newTask = {...task}
@@ -98,7 +97,7 @@ function App() {
           method: 'DELETE'
         })
         if (response.ok) {
-          dispatch(delTasks(id))
+          dispatch(delTask(id))
         } else {
           throw 'err'
         }
@@ -117,7 +116,7 @@ function App() {
     />
     {isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
     {isLoading ? <div style={{marginLeft: 15}}>Загрузка данных...</div> :
-      taskState.map(({value, id}) =>
+      tasks.map(({value, id}) =>
         <Task key={id}
               id={id}
               value={value}

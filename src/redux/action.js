@@ -5,14 +5,14 @@ export function setLoadedTasks (tasks) {
     }
 }
 
-export function addTasks (task) {
+export function addTask (task) {
     return {
         type: 'ADD_TASK',
         task
     }
 }
 
-export function delTasks (id) {
+export function delTask (id) {
     return {
         type: 'DEL_TASK',
         id
