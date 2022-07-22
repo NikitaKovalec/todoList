@@ -12,4 +12,12 @@ export function addTasks (task) {
     }
 }
 
+export function delTasks (id) {
+    return {
+        type: 'DEL_TASK',
+        id
+    }
+}
+
+
 

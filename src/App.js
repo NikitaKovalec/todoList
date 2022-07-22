@@ -2,10 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux'
 import Task from './Components/Task';
 import Form from './Components/Form';
-import {setLoadedTasks, addTasks} from "./redux/action";
+import {setLoadedTasks, addTasks, delTasks} from "./redux/action";
 
 function App() {
-  let [tasks, setTasks] = useState([])
   let [value, setValue] = useState("")
   let [isLoading, setIsLoading] = useState(true)
   let [isSaving, setIsSaving] = useState(false)
@@ -53,7 +52,6 @@ function App() {
       if (response.ok) {
         const newTasks = await response.json()
         dispatch(addTasks(newTasks))
-        // setTasks([...tasks, newTasks])
       } else {
         throw 'err'
       }
@@ -67,7 +65,7 @@ function App() {
   }
 
   async function changeValue(id, inputValue) {
-    let newTasks = [...tasks]
+    let newTasks = [...taskState]
     let task = newTasks.find(obj => obj.id === id)
     let index = newTasks.findIndex(obj => obj.id === id)
     let newTask = {...task}
@@ -83,7 +81,7 @@ function App() {
         body: JSON.stringify(newTask)
       })
       if (response.ok) {
-        setTasks(newTasks)
+        dispatch(setLoadedTasks(newTasks))
       } else {
         throw 'err'
       }
@@ -100,7 +98,7 @@ function App() {
           method: 'DELETE'
         })
         if (response.ok) {
-          setTasks(tasks.filter(obj => obj.id !== id))
+          dispatch(delTasks(id))
         } else {
           throw 'err'
         }
