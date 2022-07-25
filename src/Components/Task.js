@@ -24,6 +24,7 @@ function Task({id, del, value, changeValue}) {
     style={{
       display: "flex",
     }}
+    data-test-class='task'
   >
     {isEditing ?
       <input
@@ -50,6 +51,7 @@ function Task({id, del, value, changeValue}) {
           overflow: "hidden",
           textOverflow: "ellipsis"
         }}
+        data-test-class='taskText'
       >
         {value}
       </div>

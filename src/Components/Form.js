@@ -5,6 +5,7 @@ function Form({value, setValue, save, isSaving, isErrorSave}) {
   return <>
     <input
       value={value}
+      data-test-id='formInput'
       onChange={(event) => setValue(event.target.value)}
       style={{
         width: 200,
@@ -17,6 +18,7 @@ function Form({value, setValue, save, isSaving, isErrorSave}) {
     />
     <button
       disabled={disabled}
+      data-test-id='addButton'
       onClick={save}
       style={{
         border: "none",
