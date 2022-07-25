@@ -25,12 +25,6 @@ function Task({id, del, value, changeValue}) {
       display: "flex",
     }}
   >
-    <div
-      style={{
-        marginTop: 15
-      }}
-    >
-    </div>
     {isEditing ?
       <input
         disabled={disabled}
