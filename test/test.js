@@ -1,6 +1,6 @@
 const puppeteer = require('puppeteer');
 
-test('e2e test', async () => {
+test('adding a task', async () => {
     const value = Date.now().toString()
     const browser = await puppeteer.launch({headless: false})
     const page = await browser.newPage()
@@ -13,11 +13,9 @@ test('e2e test', async () => {
         return document.querySelector('[data-test-class=task]:last-child [data-test-class=taskText]').innerText
     })
     try {
-        if (textInDiv === value) {
-            await browser.close()
-        }
+        expect(textInDiv).toEqual(value)
     }catch (e) {
-        expect(e).toMatch('err')
+        console.log('Таск не найден')
     }finally {
         await browser.close()
     }
