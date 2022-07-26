@@ -1,13 +1,14 @@
 const puppeteer = require('puppeteer');
-const browser = puppeteer.launch({headless: false})
+let browser
 
 afterEach(async () => {
-    await (await browser).close()
+    await browser.close()
 })
 
 test('adding a task', async () => {
     const value = Date.now().toString()
-    const page = await (await browser).newPage()
+    browser = await puppeteer.launch({headless: false})
+    const page = await browser.newPage()
 
     await page.goto('http://localhost:3000')
     await page.type('[data-test-id=formInput]', value)
@@ -19,4 +20,5 @@ test('adding a task', async () => {
 
     expect(textInDiv).toEqual(value)
 })
+
 
