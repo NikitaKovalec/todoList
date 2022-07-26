@@ -12,12 +12,9 @@ test('adding a task', async () => {
     const textInDiv = await page.evaluate(() => {
         return document.querySelector('[data-test-class=task]:last-child [data-test-class=taskText]').innerText
     })
-    try {
-        expect(textInDiv).toEqual(value)
-    }catch (e) {
-        console.log('Таск не найден')
-    }finally {
-        await browser.close()
-    }
+
+    expect(textInDiv).toEqual(value)
+    await browser.close()
+
 })
 
