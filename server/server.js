@@ -1,9 +1,23 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const sqlite3 = require('sqlite3').verbose()
 const fs = require('fs')
 const port = 3100
 app.use(cors())
+
+const db = new sqlite3.Database('./taskList.db', sqlite3.OPEN_READWRITE, (err) => {
+    if (err) return console.log('Ошибка')
+    console.log('Успешно')
+})
+
+let sql
+
+// sql = `CREATE TABLE tasks (id, value)`
+// db.run(sql, (err) => {
+//     if (err) return console.log('Ошибка')
+//     console.log('Успешно')
+// })
 
 if (!fs.existsSync('nextTaskId.json')) {
     fs.writeFileSync('nextTaskId.json', '1')
@@ -19,9 +33,19 @@ app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
     res.json(tasks)
+
+    sql = `SELECT * FROM tasks`
+    db.all(sql, [], (err, rows) => {
+        if (err) return console.log('Ошибка')
+        rows.forEach(row => {
+            return row
+        })
+        console.log('Успешно')
+    })
 })
 
 app.post('/tasks/', (req, res) => {
+    sql = `INSERT INTO tasks (id, value) VALUES (?,?)`
     if (req.body.value) {
         const task = {}
         task.value = req.body.value
@@ -35,6 +59,12 @@ app.post('/tasks/', (req, res) => {
             tasks = newTasks
             fs.writeFileSync('nextTaskId.json', JSON.stringify(nextTaskId))
             res.json(task)
+
+            db.run(sql, [task.id, task.value.toString()], (err)=> {
+                if (err) return console.log('Ошибка')
+                console.log('Успешно')
+            })
+
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
@@ -58,6 +88,13 @@ app.put('/tasks/:id/', (req, res) => {
                 fs.writeFileSync('taskList.json', JSON.stringify(newTasks))
                 tasks = newTasks
                 res.json(newTask)
+
+                sql = `UPDATE tasks SET id = ?, value = ?`
+                db.run(sql, [index, newTask.value], (err)=> {
+                    if (err) return console.log('Ошибка')
+                    console.log('Успешно')
+                })
+
             } catch (err) {
                 res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
             }
@@ -79,6 +116,13 @@ app.delete('/tasks/:id/', (req, res) => {
             fs.writeFileSync('taskList.json', JSON.stringify(newTasks))
             tasks = newTasks
             res.status(200).send("OK")
+
+            sql = `DELETE FROM tasks WHERE id = ?`
+            db.run(sql, [index], (err)=> {
+                if (err) return console.log('Ошибка')
+                console.log('Успешно')
+            })
+
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
@@ -91,3 +135,4 @@ app.listen(port, () => {
     console.log(`has been started on port ${port}...`)
 })
 
+db.close()
