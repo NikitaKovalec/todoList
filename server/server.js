@@ -5,14 +5,13 @@ const sqlite3 = require('sqlite3').verbose()
 const port = 3100
 app.use(cors())
 
-const db = new sqlite3.Database('./taskList.db', sqlite3.OPEN_READWRITE, (err) => {
-    if (err) return console.log('Ошибка')
+const db = new sqlite3.Database('./taskList.db', (err) => {
+    if (err) return console.log('Ошибка:', err)
     console.log('Успешно')
 })
 
 db.run(`CREATE TABLE tasks (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, value CHAR)`, (err) => {
-    if (err) return console.log('Ошибка создания - таблица уже создана')
-    console.log('Успешно')
+    if (err) return console.error(err)
 })
 
 app.use(express.json())
@@ -31,7 +30,7 @@ app.post('/tasks/', async (req, res) => {
     if (req.body.value) {
         const {id, value} = req.body
         try {
-            const taskDB = await new Promise((resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 db.run(`INSERT INTO tasks (id, value) VALUES (?,?)`, [id, value.toString()], (err) => {
                     if (err) reject(err)
                     else {
@@ -80,7 +79,7 @@ app.put('/tasks/:id/', async (req, res) => {
 app.delete('/tasks/:id/', async (req, res) => {
     if (req.params.id !== -1) {
         try {
-            const deleteTask = await new Promise((resolve, reject) => {
+            await new Promise((resolve, reject) => {
                 db.run(`DELETE FROM tasks WHERE id = ?`, [req.params.id], (err) => {
                     if (err) reject(err)
                     else {
@@ -88,13 +87,7 @@ app.delete('/tasks/:id/', async (req, res) => {
                     }
                 })
             })
-            const tasks = await new Promise((resolve, reject) => {
-                db.all(`SELECT * FROM tasks`, [], (err, rows) => {
-                    if (err) reject(err)
-                    else resolve(rows)
-                })
-            })
-            res.json(tasks)
+            res.json("OK")
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
