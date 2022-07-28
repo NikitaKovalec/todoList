@@ -11,10 +11,7 @@ const db = new sqlite3.Database('./taskList.db', sqlite3.OPEN_READWRITE, (err) =
     console.log('Успешно')
 })
 
-let sql
-
-// sql = `CREATE TABLE tasks (id, value)`
-// db.run(sql, (err) => {
+// db.run(`CREATE TABLE tasks(ID INTEGER PRIMARY KEY, value)`, (err) => {
 //     if (err) return console.log('Ошибка')
 //     console.log('Успешно')
 // })
@@ -32,20 +29,22 @@ let nextTaskId = JSON.parse(fs.readFileSync('nextTaskId.json', 'utf-8'))
 app.use(express.json())
 
 app.get('/tasks/', (req, res) => {
-    res.json(tasks)
-
-    sql = `SELECT * FROM tasks`
-    db.all(sql, [], (err, rows) => {
-        if (err) return console.log('Ошибка')
-        rows.forEach(row => {
-            return row
+    async function getTasks() {
+        return new Promise((resolve, reject) => {
+            db.all(`SELECT * FROM tasks`, [], (err, rows) => {
+                if (err) reject(err)
+                else {
+                    resolve(rows)
+                    res.json(tasks)
+                    console.log('Успешно')
+                }
+            })
         })
-        console.log('Успешно')
-    })
+    }
+    getTasks().then(data=> data)
 })
 
 app.post('/tasks/', (req, res) => {
-    sql = `INSERT INTO tasks (id, value) VALUES (?,?)`
     if (req.body.value) {
         const task = {}
         task.value = req.body.value
@@ -58,13 +57,18 @@ app.post('/tasks/', (req, res) => {
             fs.writeFileSync('taskList.json', JSON.stringify(newTasks))
             tasks = newTasks
             fs.writeFileSync('nextTaskId.json', JSON.stringify(nextTaskId))
-            res.json(task)
-
-            db.run(sql, [task.id, task.value.toString()], (err)=> {
-                if (err) return console.log('Ошибка')
-                console.log('Успешно')
-            })
-
+            async function postTask() {
+                return new Promise((resolve, reject) => {
+                    db.run(`INSERT INTO tasks (id, value) VALUES (?,?)`, [task.id, task.value.toString()], (err) => {
+                        if (err) reject(err)
+                        else {
+                            res.json(task)
+                            console.log('Успешно')
+                        }
+                    })
+                })
+            }
+            postTask().then(data => data)
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
@@ -87,14 +91,18 @@ app.put('/tasks/:id/', (req, res) => {
                 newTasks.splice(index, 1, newTask)
                 fs.writeFileSync('taskList.json', JSON.stringify(newTasks))
                 tasks = newTasks
-                res.json(newTask)
-
-                sql = `UPDATE tasks SET id = ?, value = ?`
-                db.run(sql, [index, newTask.value], (err)=> {
-                    if (err) return console.log('Ошибка')
-                    console.log('Успешно')
-                })
-
+                async function updateTask() {
+                    return new Promise((resolve, reject) => {
+                        db.run(`UPDATE tasks SET value = ? WHERE id = ?`, [index, newTask.value], (err) => {
+                            if (err) reject(err)
+                            else {
+                                res.json(newTask)
+                                console.log('Успешно')
+                            }
+                        })
+                    })
+                }
+                updateTask().then(data=> data)
             } catch (err) {
                 res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
             }
@@ -116,13 +124,15 @@ app.delete('/tasks/:id/', (req, res) => {
             fs.writeFileSync('taskList.json', JSON.stringify(newTasks))
             tasks = newTasks
             res.status(200).send("OK")
-
-            sql = `DELETE FROM tasks WHERE id = ?`
-            db.run(sql, [index], (err)=> {
-                if (err) return console.log('Ошибка')
-                console.log('Успешно')
-            })
-
+            async function deleteTask() {
+                return new Promise((resolve, reject) => {
+                    db.run(`DELETE FROM tasks WHERE id = ?`, [index], (err) => {
+                        if (err) reject(err)
+                        else {console.log('Успешно')}
+                    })
+                })
+            }
+            deleteTask().then(data=> data)
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
@@ -135,4 +145,3 @@ app.listen(port, () => {
     console.log(`has been started on port ${port}...`)
 })
 
-db.close()
