@@ -1,52 +1,39 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const sqlite3 = require('sqlite3').verbose()
+const { Client } = require('pg')
+const client = new Client({
+    user: 'postgres',
+    password: '12345',
+    host: 'localhost',
+    port: 5432,
+    database: 'taskList',
+})
 const port = 3100
-app.use(cors())
+client.connect()
 
-const db = new sqlite3.Database('./taskList.db', (err) => {
-    if (err) return console.log('Ошибка:', err)
+app.use(cors())
+app.use(express.json())
+
+client.query(`CREATE TABLE tasks (id SERIAL PRIMARY KEY , value VARCHAR(255))`, (err) =>{
+    if (err) return console.log('Ошибка ' + err)
     console.log('Успешно')
 })
 
-db.run(`CREATE TABLE tasks (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, value CHAR)`, (err) => {
-    if (err) return console.error(err)
-})
-
-app.use(express.json())
-
 app.get('/tasks/', async (req, res) => {
-    const tasks = await new Promise((resolve, reject) => {
-        db.all(`SELECT * FROM tasks`, [], (err, rows) => {
-            if (err) reject(err)
-            else resolve(rows)
-        })
-    })
-    res.json(tasks)
+    const tasks = await client.query(`SELECT * FROM tasks`)
+    res.json(tasks.rows)
 })
 
 app.post('/tasks/', async (req, res) => {
     if (req.body.value) {
-        const {id, value} = req.body
+        const {value} = req.body
         try {
-            await new Promise((resolve, reject) => {
-                db.run(`INSERT INTO tasks (id, value) VALUES (?,?)`, [id, value.toString()], (err) => {
-                    if (err) reject(err)
-                    else {
-                        resolve(req.body)
-                    }
-                })
+            await client.query(`INSERT INTO tasks (value) VALUES ($1)`, [value.toString()], (err) => {
+                if (err) console.log(err.message)
             })
-            const lastTask = await new Promise((resolve, reject) => {
-                db.get(`SELECT * FROM tasks ORDER BY id DESC LIMIT 1`, (err, rows) => {
-                    if (err) reject(err)
-                    else {
-                        resolve(rows)
-                    }
-                })
-            })
-            res.json(lastTask)
+            const lastTask = await client.query(`SELECT * FROM tasks ORDER BY id DESC LIMIT 1`)
+            res.json(lastTask.rows[0])
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
@@ -59,15 +46,8 @@ app.post('/tasks/', async (req, res) => {
 app.put('/tasks/:id/', async (req, res) => {
     if (req.body.value) {
         try {
-            const newTaskDB = await new Promise((resolve, reject) => {
-                db.run(`UPDATE tasks SET value = ? WHERE id = ?`, [req.body.value, req.params.id], (err) => {
-                    if (err) reject(err)
-                    else {
-                        resolve(req.body)
-                    }
-                })
-            })
-            res.json(newTaskDB)
+            const newTask = await client.query(`UPDATE tasks SET value = $1 WHERE id = $2`, [req.body.value, req.params.id])
+            res.json(newTask)
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
@@ -79,14 +59,7 @@ app.put('/tasks/:id/', async (req, res) => {
 app.delete('/tasks/:id/', async (req, res) => {
     if (req.params.id !== -1) {
         try {
-            await new Promise((resolve, reject) => {
-                db.run(`DELETE FROM tasks WHERE id = ?`, [req.params.id], (err) => {
-                    if (err) reject(err)
-                    else {
-                        resolve('OK')
-                    }
-                })
-            })
+            await client.query(`DELETE FROM tasks WHERE id = $1`, [req.params.id])
             res.json("OK")
         } catch (err) {
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
@@ -95,8 +68,6 @@ app.delete('/tasks/:id/', async (req, res) => {
         res.status(404).send('Не найдено')
     }
 })
-
-// db.close()
 
 app.listen(port, () => {
     console.log(`has been started on port ${port}...`)
