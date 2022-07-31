@@ -9,5 +9,6 @@ services:
     volumes:
       - ./server/data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: 12345
       POSTGRES_DB: tasksList
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres

@@ -10,9 +10,8 @@
 
 # production
 /build
+server/data
 .idea
-/server/taskList.json
-/server/nextTaskId.json
 
 # misc
 .DS_Store

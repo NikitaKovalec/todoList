@@ -4,10 +4,10 @@ const cors = require('cors')
 const { Client } = require('pg')
 const client = new Client({
     user: 'postgres',
-    password: '12345',
+    password: 'postgres',
     host: 'localhost',
     port: 5432,
-    database: 'taskList',
+    database: 'tasksList',
 })
 const port = 3100
 client.connect()
@@ -15,26 +15,30 @@ client.connect()
 app.use(cors())
 app.use(express.json())
 
-client.query(`CREATE TABLE tasks (id SERIAL PRIMARY KEY , value VARCHAR(255))`, (err) =>{
-    if (err) return console.log('Ошибка ' + err)
-    console.log('Успешно')
-})
+try {
+    client.query(`CREATE TABLE tasks (id SERIAL PRIMARY KEY , value VARCHAR(255))`)
+} catch (err) {
+    console.log('Ошибка ' + err)
+}
+
 
 app.get('/tasks/', async (req, res) => {
-    const tasks = await client.query(`SELECT * FROM tasks`)
-    res.json(tasks.rows)
+    try {
+        const tasks = await client.query(`SELECT * FROM tasks ORDER BY id`)
+        res.json(tasks.rows)
+    } catch (err) {
+        await console.log('Ошибка ' + err)
+    }
 })
 
 app.post('/tasks/', async (req, res) => {
     if (req.body.value) {
         const {value} = req.body
         try {
-            await client.query(`INSERT INTO tasks (value) VALUES ($1)`, [value.toString()], (err) => {
-                if (err) console.log(err.message)
-            })
-            const lastTask = await client.query(`SELECT * FROM tasks ORDER BY id DESC LIMIT 1`)
-            res.json(lastTask.rows[0])
+            const task = await client.query(`INSERT INTO tasks (value) VALUES ($1) RETURNING *`, [value.toString()])
+            res.json(task.rows[0])
         } catch (err) {
+            await console.log(err.message)
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
 
@@ -46,9 +50,11 @@ app.post('/tasks/', async (req, res) => {
 app.put('/tasks/:id/', async (req, res) => {
     if (req.body.value) {
         try {
-            const newTask = await client.query(`UPDATE tasks SET value = $1 WHERE id = $2`, [req.body.value, req.params.id])
+            const newTask = await client.query(`UPDATE tasks SET value = $1 WHERE id = $2`,
+                [req.body.value, req.params.id])
             res.json(newTask)
         } catch (err) {
+            await console.log('Ошибка ' + err)
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
     } else {
@@ -62,6 +68,7 @@ app.delete('/tasks/:id/', async (req, res) => {
             await client.query(`DELETE FROM tasks WHERE id = $1`, [req.params.id])
             res.json("OK")
         } catch (err) {
+            await console.log('Ошибка ' + err)
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
         }
     } else {
