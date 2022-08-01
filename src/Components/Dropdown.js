@@ -18,9 +18,7 @@ function Dropdown({options}) {
         return () => {
             document.removeEventListener('click', clickOutside, true)
         }
-    }, [isOpen])
-
-    console.log(isOpen)
+    }, [ref])
 
     const changeValues = (optionValue, optionIndex) => {
         setSelectedIndex(optionIndex)
@@ -28,7 +26,7 @@ function Dropdown({options}) {
         setIsOpen(false)
     }
 
-    return <>
+    return <div ref={ref}>
         <div style={{
             display: 'flex',
             justifyContent: 'space-between',
@@ -45,14 +43,13 @@ function Dropdown({options}) {
         </div>
         <div>
             {isOpen ?
-                <div ref={ref}
-                     style={{
-                         width: 200,
-                         margin: "5px 0 0 15px",
-                         padding: 10,
-                         border: "1px solid #4676D7",
-                         borderRadius: 4
-                     }}>
+                <div style={{
+                    width: 200,
+                    margin: "5px 0 0 15px",
+                    padding: 10,
+                    border: "1px solid #4676D7",
+                    borderRadius: 4
+                }}>
                     {options.map((value, index) =>
                         <div onClick={() => changeValues(value, index)}
                              key={index}
@@ -67,7 +64,7 @@ function Dropdown({options}) {
                     )}
                 </div> : <></>}
         </div>
-    </>
+    </div>
 }
 
 export default Dropdown;
