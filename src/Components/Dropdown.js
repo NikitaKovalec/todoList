@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from "react"
 
-function Dropdown({status}) {
+function Dropdown({option}) {
     let [isOpen, setIsOpen] = useState(false)
     let [selection, setSelection] = useState('--')
-    let [isHighlighted, setIsHighlighted] = useState(false)
+    let [selectedIndex, setSelectedIndex] = useState()
 
     const ref = useRef()
 
@@ -16,15 +16,13 @@ function Dropdown({status}) {
     useEffect(() => {
         document.addEventListener('click', clickOutside, true)
         return () => {
-            document.removeEventListener('click', clickOutside)
+            document.removeEventListener('click', clickOutside, true)
         }
     })
 
-    const changeValues = (statusValue) => {
-        if (statusValue === selection) {
-            setIsHighlighted(true)
-        }
-        setSelection(statusValue)
+    const changeValues = (optionValue, optionIndex) => {
+        setSelectedIndex(optionIndex)
+        setSelection(optionValue)
         setIsOpen(false)
     }
 
@@ -53,13 +51,13 @@ function Dropdown({status}) {
                          border: "1px solid #4676D7",
                          borderRadius: 4
                      }}>
-                    {status.map((value, index) =>
-                        <div onClick={() => changeValues(value)}
+                    {option.map((value, index) =>
+                        <div onClick={() => changeValues(value, index)}
                              key={index}
                              style={{
                                  padding: 5,
                                  borderBottom: "1px solid #bdbdbd",
-                                 backgroundColor: isHighlighted ? "#bdbdbd" : "#fff",
+                                 backgroundColor: selectedIndex === index ? "#bdbdbd" : "#fff",
                                  overflow: "hidden",
                                  textOverflow: "ellipsis"
                              }}
