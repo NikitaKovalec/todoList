@@ -14,6 +14,8 @@ function App() {
   const dispatch = useDispatch()
   const tasks = useSelector(state => state)
 
+  const status = ['Выполняется', 'Выполнено', 'Отложено']
+
   const fetchingTasks = async () => {
     try {
       const response = await fetch('http://localhost:3100/tasks', {
@@ -126,7 +128,7 @@ function App() {
         />
       )}
     <Dropdown
-      tasks={tasks}
+        status={status}
     />
   </>
 }

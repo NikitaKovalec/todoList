@@ -1,11 +1,11 @@
 import React, {useEffect, useRef, useState} from "react"
 
-function Dropdown({tasks}) {
+function Dropdown({status}) {
     let [isOpen, setIsOpen] = useState(false)
     let [selection, setSelection] = useState('--')
     const ref = useRef()
     let highlighter = false
-    const newArr = [...tasks]
+    const statusArr = [...status]
 
     const clickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -20,16 +20,16 @@ function Dropdown({tasks}) {
         }
     })
 
-    const selectTask = (taskValue, taskId) => {
-        const findTask = newArr.find(obj => obj.id === taskId)
-        const findTaskId = findTask.id
-        if (taskId === findTaskId) {
+    const selectStatus = (statusValue) => {
+        const findValue = statusArr.find(obj => obj.value === statusValue)
+        if (findValue === statusValue) {
             highlighter = true
         }
-        setSelection(taskValue)
+        console.log(findValue)
+        setSelection(statusValue)
         setIsOpen(false)
     }
-    console.log(isOpen)
+
     return <>
         <div style={{
             display: 'flex',
@@ -55,9 +55,9 @@ function Dropdown({tasks}) {
                          border: "1px solid #4676D7",
                          borderRadius: 4
                      }}>
-                    {newArr.map(({id, value}) =>
-                        <div key={id}
-                             onClick={() => selectTask(value, id)}
+                    {statusArr.map((value, index) =>
+                        <div key={index}
+                             onClick={() => selectStatus(value)}
                              style={{
                                  padding: 5,
                                  borderBottom: "1px solid #bdbdbd",
