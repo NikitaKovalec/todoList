@@ -15,11 +15,10 @@ client.connect()
 app.use(cors())
 app.use(express.json())
 
-try {
-    client.query(`CREATE TABLE tasks (id SERIAL PRIMARY KEY , value VARCHAR(255))`)
-} catch (err) {
-    console.log('Ошибка ' + err)
-}
+client.query(`CREATE TABLE tasks (id SERIAL PRIMARY KEY , value VARCHAR(255))`, (err) =>{
+    if (err) return console.log('Ошибка ' + err)
+    console.log('Успешно')
+})
 
 
 app.get('/tasks/', async (req, res) => {

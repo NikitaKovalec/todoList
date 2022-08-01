@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import Task from './Components/Task';
 import Form from './Components/Form';
 import {setLoadedTasks, addTask, delTask} from "./redux/action";
+import Dropdown from "./Components/Dropdown";
 
 function App() {
   let [value, setValue] = useState("")
@@ -124,6 +125,9 @@ function App() {
               del={del}
         />
       )}
+    <Dropdown
+      tasks={tasks}
+    />
   </>
 }
 
