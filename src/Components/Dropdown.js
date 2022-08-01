@@ -1,10 +1,10 @@
 import React, {useEffect, useRef, useState} from "react"
+import DropdownList from "./DropdownList";
 
 function Dropdown({status}) {
     let [isOpen, setIsOpen] = useState(false)
     let [selection, setSelection] = useState('--')
     const ref = useRef()
-    let isHighlighted = false
 
     const clickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -22,11 +22,6 @@ function Dropdown({status}) {
     const selectStatus = (statusValue) => {
         setSelection(statusValue)
         setIsOpen(false)
-
-        if (statusValue === selection) {
-            isHighlighted = true
-        }
-        console.log(isHighlighted)
     }
 
     return <>
@@ -55,16 +50,11 @@ function Dropdown({status}) {
                          borderRadius: 4
                      }}>
                     {status.map((value, index) =>
-                        <div key={index}
-                             onClick={() => selectStatus(value, index)}
-                             style={{
-                                 padding: 5,
-                                 borderBottom: "1px solid #bdbdbd",
-                                 backgroundColor: isHighlighted ? "#bdbdbd" : "#fff",
-                                 overflow: "hidden",
-                                 textOverflow: "ellipsis"
-                             }}
-                        >{value}</div>
+                        <DropdownList
+                            selectStatus={selectStatus}
+                            key={index}
+                            value={value}
+                        />
                     )}
                 </div> : <></>}
         </div>
