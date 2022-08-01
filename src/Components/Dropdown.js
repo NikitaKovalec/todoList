@@ -5,6 +5,7 @@ function Dropdown({tasks}) {
     let [selection, setSelection] = useState('--')
     const ref = useRef()
     let highlighter = false
+    const newArr = [...tasks]
 
     const clickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -15,19 +16,20 @@ function Dropdown({tasks}) {
     useEffect(() => {
         document.addEventListener('click', clickOutside, true)
         return () => {
-            document.removeEventListener('click', clickOutside, true)
+            document.removeEventListener('click', clickOutside)
         }
     })
 
-    const handle = (taskValue, taskId) => {
-        const id = tasks.findIndex(obj => obj.id === taskId)
-        if (taskId === id) {
+    const selectTask = (taskValue, taskId) => {
+        const findTask = newArr.find(obj => obj.id === taskId)
+        const findTaskId = findTask.id
+        if (taskId === findTaskId) {
             highlighter = true
         }
         setSelection(taskValue)
         setIsOpen(false)
     }
-
+    console.log(isOpen)
     return <>
         <div style={{
             display: 'flex',
@@ -53,13 +55,13 @@ function Dropdown({tasks}) {
                          border: "1px solid #4676D7",
                          borderRadius: 4
                      }}>
-                    {tasks.map(({id, value}) =>
+                    {newArr.map(({id, value}) =>
                         <div key={id}
-                             onClick={() => handle(value, id)}
+                             onClick={() => selectTask(value, id)}
                              style={{
                                  padding: 5,
                                  borderBottom: "1px solid #bdbdbd",
-                                 backgroundColor: highlighter ? "#838383" : "#fff",
+                                 backgroundColor: highlighter ? "#bdbdbd" : "#fff",
                                  overflow: "hidden",
                                  textOverflow: "ellipsis"
                              }}
