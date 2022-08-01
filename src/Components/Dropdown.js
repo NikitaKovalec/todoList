@@ -15,10 +15,14 @@ function Dropdown({options}) {
 
     useEffect(() => {
         document.addEventListener('click', clickOutside, true)
+    }, [])
+
+    useEffect(() => {
         return () => {
             document.removeEventListener('click', clickOutside, true)
         }
-    }, [ref])
+    }, [])
+    console.log(isOpen)
 
     const changeValues = (optionValue, optionIndex) => {
         setSelectedIndex(optionIndex)
