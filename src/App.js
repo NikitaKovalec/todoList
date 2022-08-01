@@ -14,7 +14,7 @@ function App() {
   const dispatch = useDispatch()
   const tasks = useSelector(state => state)
 
-  const option = ['Выполняется', 'Выполнено', 'Отложено']
+  const options = ['Выполняется', 'Выполнено', 'Отложено']
 
   const fetchingTasks = async () => {
     try {
@@ -128,7 +128,7 @@ function App() {
         />
       )}
     <Dropdown
-        option={option}
+        options={options}
     />
   </>
 }

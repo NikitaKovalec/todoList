@@ -1,6 +1,6 @@
 import React, {useEffect, useRef, useState} from "react"
 
-function Dropdown({option}) {
+function Dropdown({options}) {
     let [isOpen, setIsOpen] = useState(false)
     let [selection, setSelection] = useState('--')
     let [selectedIndex, setSelectedIndex] = useState()
@@ -18,7 +18,9 @@ function Dropdown({option}) {
         return () => {
             document.removeEventListener('click', clickOutside, true)
         }
-    })
+    }, [isOpen])
+
+    console.log(isOpen)
 
     const changeValues = (optionValue, optionIndex) => {
         setSelectedIndex(optionIndex)
@@ -51,7 +53,7 @@ function Dropdown({option}) {
                          border: "1px solid #4676D7",
                          borderRadius: 4
                      }}>
-                    {option.map((value, index) =>
+                    {options.map((value, index) =>
                         <div onClick={() => changeValues(value, index)}
                              key={index}
                              style={{
