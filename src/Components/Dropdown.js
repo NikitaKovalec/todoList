@@ -19,7 +19,6 @@ function Dropdown({options}) {
             document.removeEventListener('click', clickOutside, true)
         }
     }, [])
-    console.log(isOpen)
 
     const changeValues = (optionValue, optionIndex) => {
         setSelectedIndex(optionIndex)
