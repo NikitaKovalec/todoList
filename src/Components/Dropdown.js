@@ -4,8 +4,7 @@ function Dropdown({status}) {
     let [isOpen, setIsOpen] = useState(false)
     let [selection, setSelection] = useState('--')
     const ref = useRef()
-    let highlighter = false
-    const statusArr = [...status]
+    let isHighlighted = false
 
     const clickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -21,13 +20,13 @@ function Dropdown({status}) {
     })
 
     const selectStatus = (statusValue) => {
-        const findValue = statusArr.find(obj => obj.value === statusValue)
-        if (findValue === statusValue) {
-            highlighter = true
-        }
-        console.log(findValue)
         setSelection(statusValue)
         setIsOpen(false)
+
+        if (statusValue === selection) {
+            isHighlighted = true
+        }
+        console.log(isHighlighted)
     }
 
     return <>
@@ -55,13 +54,13 @@ function Dropdown({status}) {
                          border: "1px solid #4676D7",
                          borderRadius: 4
                      }}>
-                    {statusArr.map((value, index) =>
+                    {status.map((value, index) =>
                         <div key={index}
-                             onClick={() => selectStatus(value)}
+                             onClick={() => selectStatus(value, index)}
                              style={{
                                  padding: 5,
                                  borderBottom: "1px solid #bdbdbd",
-                                 backgroundColor: highlighter ? "#bdbdbd" : "#fff",
+                                 backgroundColor: isHighlighted ? "#bdbdbd" : "#fff",
                                  overflow: "hidden",
                                  textOverflow: "ellipsis"
                              }}
