@@ -15,9 +15,6 @@ function Dropdown({options}) {
 
     useEffect(() => {
         document.addEventListener('click', clickOutside, true)
-    }, [])
-
-    useEffect(() => {
         return () => {
             document.removeEventListener('click', clickOutside, true)
         }
