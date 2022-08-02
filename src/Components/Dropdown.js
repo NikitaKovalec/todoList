@@ -28,9 +28,8 @@ function Dropdown({options}) {
         setIsOpen(false)
     }
 
-    return <div>
-        <div ref={ref}
-             style={{
+    return <div ref={ref}>
+        <div style={{
                  display: 'flex',
                  justifyContent: 'space-between',
                  width: 200,
