@@ -15,11 +15,6 @@ function App() {
   const tasks = useSelector(state => state)
   const options = useMemo(() => ['Выполняется', 'Выполнено', 'Отложено'], [])
 
-
-  if (window.options) console.log('ravni?', window.options === options)
-  window.options = options
-
-
   const fetchingTasks = async () => {
     try {
       const response = await fetch('http://localhost:3100/tasks', {
