@@ -13,7 +13,7 @@ function Dropdown({options}) {
     }
 
     useEffect(() => {
-        if(isOpen) {
+        if (isOpen) {
             document.addEventListener('click', clickOutside, true)
             return () => {
                 document.removeEventListener('click', clickOutside, true)
@@ -26,17 +26,21 @@ function Dropdown({options}) {
         setIsOpen(false)
     }
 
-    return <div ref={ref}>
+    return <div ref={ref}
+                style={{
+                    position: 'absolute'
+                }}
+    >
         <div style={{
-                 display: 'flex',
-                 justifyContent: 'space-between',
-                 width: 200,
-                 height: 20,
-                 margin: "15px 0 0 15px",
-                 padding: "5px 10px",
-                 border: "1px solid #4676D7",
-                 borderRadius: 4
-             }}
+            display: 'flex',
+            justifyContent: 'space-between',
+            width: 200,
+            height: 20,
+            margin: "15px 0 0 15px",
+            padding: "5px 10px",
+            border: "1px solid #4676D7",
+            borderRadius: 4
+        }}
              onClick={() => setIsOpen(!isOpen)}>
             <div>{selectedIndex >= 0 ? options[selectedIndex] : '--'}</div>
             <div>{isOpen ? 'Закрыть' : 'Открыть'}</div>
