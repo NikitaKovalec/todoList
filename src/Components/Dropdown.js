@@ -45,32 +45,29 @@ function Dropdown({options}) {
             <div>{selectedIndex >= 0 ? options[selectedIndex] : '--'}</div>
             <div>{isOpen ? 'Закрыть' : 'Открыть'}</div>
         </div>
-        <div style={{
-            position: 'absolute'
-        }}>
-            {isOpen ?
-                <div style={{
-                    width: 200,
-                    margin: "5px 0 0 15px",
-                    padding: 10,
-                    border: "1px solid #4676D7",
-                    backgroundColor: '#fff',
-                    borderRadius: 4
-                }}>
-                    {options.map((value, index) =>
-                        <div onClick={() => changeValues(value, index)}
-                             key={index}
-                             style={{
-                                 padding: 5,
-                                 borderBottom: "1px solid #bdbdbd",
-                                 backgroundColor: selectedIndex === index ? "#bdbdbd" : "#fff",
-                                 overflow: "hidden",
-                                 textOverflow: "ellipsis"
-                             }}
-                        >{value}</div>
-                    )}
-                </div> : <></>}
-        </div>
+        {isOpen ?
+            <div style={{
+                position: 'absolute',
+                width: 200,
+                margin: "5px 0 0 15px",
+                padding: 10,
+                border: "1px solid #4676D7",
+                backgroundColor: '#fff',
+                borderRadius: 4
+            }}>
+                {options.map((value, index) =>
+                    <div onClick={() => changeValues(value, index)}
+                         key={index}
+                         style={{
+                             padding: 5,
+                             borderBottom: "1px solid #bdbdbd",
+                             backgroundColor: selectedIndex === index ? "#bdbdbd" : "#fff",
+                             overflow: "hidden",
+                             textOverflow: "ellipsis"
+                         }}
+                    >{value}</div>
+                )}
+            </div> : <></>}
     </div>
 }
 
