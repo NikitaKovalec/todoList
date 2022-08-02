@@ -2,7 +2,6 @@ import React, {useEffect, useRef, useState} from "react"
 
 function Dropdown({options}) {
     let [isOpen, setIsOpen] = useState(false)
-    let [selection, setSelection] = useState('--')
     let [selectedIndex, setSelectedIndex] = useState()
 
     const ref = useRef(null)
@@ -24,7 +23,6 @@ function Dropdown({options}) {
 
     const changeValues = (optionValue, optionIndex) => {
         setSelectedIndex(optionIndex)
-        setSelection(optionValue)
         setIsOpen(false)
     }
 
@@ -40,7 +38,7 @@ function Dropdown({options}) {
                  borderRadius: 4
              }}
              onClick={() => setIsOpen(!isOpen)}>
-            <div>{selection}</div>
+            <div>{selectedIndex >= 0 ? options[selectedIndex] : '--'}</div>
             <div>{isOpen ? 'Закрыть' : 'Открыть'}</div>
         </div>
         <div>
