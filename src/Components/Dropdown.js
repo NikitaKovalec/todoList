@@ -5,7 +5,7 @@ function Dropdown({options}) {
     let [selection, setSelection] = useState('--')
     let [selectedIndex, setSelectedIndex] = useState()
 
-    const ref = useRef()
+    const ref = useRef(null)
 
     const clickOutside = (event) => {
         if (ref.current && !ref.current.contains(event.target)) {
@@ -14,11 +14,13 @@ function Dropdown({options}) {
     }
 
     useEffect(() => {
-        document.addEventListener('click', clickOutside, true)
-        return () => {
-            document.removeEventListener('click', clickOutside, true)
+        if(isOpen) {
+            document.addEventListener('click', clickOutside, true)
+            return () => {
+                document.removeEventListener('click', clickOutside, true)
+            }
         }
-    }, [])
+    }, [isOpen])
 
     const changeValues = (optionValue, optionIndex) => {
         setSelectedIndex(optionIndex)
@@ -26,17 +28,18 @@ function Dropdown({options}) {
         setIsOpen(false)
     }
 
-    return <div ref={ref}>
-        <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: 200,
-            height: 20,
-            margin: "15px 0 0 15px",
-            padding: "5px 10px",
-            border: "1px solid #4676D7",
-            borderRadius: 4
-        }}
+    return <div>
+        <div ref={ref}
+             style={{
+                 display: 'flex',
+                 justifyContent: 'space-between',
+                 width: 200,
+                 height: 20,
+                 margin: "15px 0 0 15px",
+                 padding: "5px 10px",
+                 border: "1px solid #4676D7",
+                 borderRadius: 4
+             }}
              onClick={() => setIsOpen(!isOpen)}>
             <div>{selection}</div>
             <div>{isOpen ? 'Закрыть' : 'Открыть'}</div>
