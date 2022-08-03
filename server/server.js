@@ -1,30 +1,41 @@
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const { Client } = require('pg')
-const client = new Client({
-    user: 'postgres',
-    password: 'postgres',
+const { Sequelize, DataTypes } = require('sequelize')
+const sequelize = new Sequelize('tasksList', 'postgres', 'postgres',{
     host: 'localhost',
+    dialect: 'postgres',
     port: 5432,
-    database: 'tasksList',
 })
 const port = 3100
-client.connect()
+
+const Task = sequelize.define('Task', {
+    value: DataTypes.STRING,
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+        allowNull: false
+    }
+}, {
+    tableName: 'tasks'
+})
+
+Task.sync()
+    .then(() => {
+        console.log('Подключено')
+    })
+    .catch((err) => {
+        console.log('Ошибка' + err.message);
+    })
 
 app.use(cors())
 app.use(express.json())
 
-client.query(`CREATE TABLE tasks (id SERIAL PRIMARY KEY , value VARCHAR(255))`, (err) =>{
-    if (err) return console.log('Ошибка ' + err)
-    console.log('Успешно')
-})
-
-
 app.get('/tasks/', async (req, res) => {
     try {
-        const tasks = await client.query(`SELECT * FROM tasks ORDER BY id`)
-        res.json(tasks.rows)
+        const tasks = await Task.findAll({order: [['id']]})
+        res.json(tasks)
     } catch (err) {
         await console.log('Ошибка ' + err)
     }
@@ -32,10 +43,10 @@ app.get('/tasks/', async (req, res) => {
 
 app.post('/tasks/', async (req, res) => {
     if (req.body.value) {
-        const {value} = req.body
+        const value = req.body
         try {
-            const task = await client.query(`INSERT INTO tasks (value) VALUES ($1) RETURNING *`, [value.toString()])
-            res.json(task.rows[0])
+            const task = await Task.create(value)
+            res.json(task)
         } catch (err) {
             await console.log(err.message)
             res.status(500).send('Непредвиденная ошибка. Попробуйте позже')
@@ -49,8 +60,7 @@ app.post('/tasks/', async (req, res) => {
 app.put('/tasks/:id/', async (req, res) => {
     if (req.body.value) {
         try {
-            const newTask = await client.query(`UPDATE tasks SET value = $1 WHERE id = $2`,
-                [req.body.value, req.params.id])
+            const newTask = await Task.update({value: req.body.value}, {where: {id: req.params.id}})
             res.json(newTask)
         } catch (err) {
             await console.log('Ошибка ' + err)
@@ -64,7 +74,7 @@ app.put('/tasks/:id/', async (req, res) => {
 app.delete('/tasks/:id/', async (req, res) => {
     if (req.params.id !== -1) {
         try {
-            await client.query(`DELETE FROM tasks WHERE id = $1`, [req.params.id])
+            await Task.destroy({where: {id: req.params.id} })
             res.json("OK")
         } catch (err) {
             await console.log('Ошибка ' + err)
