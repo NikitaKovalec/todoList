@@ -18,7 +18,8 @@ const Task = sequelize.define('Task', {
         allowNull: false
     }
 }, {
-    tableName: 'tasks'
+    tableName: 'tasks',
+    timestamps: false,
 })
 
 Task.sync()
