@@ -43,9 +43,8 @@ app.get('/tasks/', async (req, res) => {
 
 app.post('/tasks/', async (req, res) => {
     if (req.body.value) {
-        const value = req.body
         try {
-            const task = await Task.create(value)
+            const task = await Task.create(req.body)
             res.json(task)
         } catch (err) {
             await console.log(err.message)
