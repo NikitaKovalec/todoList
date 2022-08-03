@@ -6,6 +6,7 @@ import Dropdown from "./Components/Dropdown";
 import {setLoadedTasks, addTask, delTask} from "./redux/action";
 import {Route, Routes} from "react-router";
 import NotFound from "./Components/NotFound";
+import DetailsTask from "./Components/DetailsTask";
 
 
 function App() {
@@ -136,6 +137,7 @@ function App() {
 					/>
 				</>
 			}/>
+			<Route path={'ui/tasks/:taskId'} element={<DetailsTask tasks={tasks}/>}/>
 			<Route path={'*'} element={<NotFound/>}/>
 		</Routes>
 	</>

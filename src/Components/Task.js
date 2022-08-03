@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 import {Link, useParams} from "react-router-dom";
-import DetailsTask from "./DetailsTask";
-import {Route, Routes} from "react-router";
 
 function Task({id, del, value, changeValue}) {
 	let [inputValue, setInputValue] = useState(value)
@@ -9,8 +7,8 @@ function Task({id, del, value, changeValue}) {
 	let [isDeleting, setIsDeleting] = useState(false)
 	let [isSaving, setIsSaving] = useState(false)
 	const disabled = isDeleting || isSaving
-	const {taskId} = useParams()
-
+	const taskId = useParams()
+	taskId.id = id
 
 	async function change() {
 		setIsSaving(true)
@@ -26,9 +24,6 @@ function Task({id, del, value, changeValue}) {
 	}
 
 	return <>
-		<Routes>
-			<Route path={'tasks/:taskId'} element={<DetailsTask value={value}/>}/>
-		</Routes>
 		<div
 			style={{
 				display: "flex",
@@ -101,7 +96,7 @@ function Task({id, del, value, changeValue}) {
 					Редактировать
 				</button>
 			}
-			<Link to={`/ui/tasks/${taskId}`}>
+			<Link to={`ui/tasks/${taskId.id}`}>
 				<button
 					style={{
 						width: 111,
