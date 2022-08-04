@@ -1,17 +1,25 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import {Link, useParams} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
+import {setLoadedTasks} from "../redux/action";
 
 function TaskPage() {
-	const [tasks, setTasks] = useState([])
 	const params = useParams()
+	const dispatch = useDispatch()
+	let tasks = useSelector(state => state)
 	const id = params.taskId
 
-	useEffect(() => {
+	const fetchTasks = async () => {
 		const result = fetch(`http://localhost:3100/tasks`, {
 			mode: 'cors'
 		})
-		const data = result.json()
-		setTasks(data)
+		if (result.ok) {
+			const data = await result.json()
+			dispatch(setLoadedTasks(data))
+		}
+	}
+	useEffect(() => {
+		fetchTasks()
 	}, [])
 
 	const findTask = tasks.find(obj => obj.id.toString() === id)
