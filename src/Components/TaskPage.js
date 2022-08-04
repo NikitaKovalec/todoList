@@ -17,7 +17,6 @@ function TaskPage() {
 				mode: 'cors'
 			})
 			if (result.ok) {
-				console.log(result)
 				const data = await result.json()
 				dispatch(setLoadedTasks(data))
 			} else {
@@ -38,15 +37,12 @@ function TaskPage() {
 	const findTask = tasks.find(obj => obj.id.toString() === id)
 
 	return <>
-		{isError ? <><h3 style={{marginLeft: 15}}>Ошибка загрузки данных...</h3>
-			<Link to='/'>
-				<button>Назад</button>
-			</Link></>
+		{isError ? <h3 style={{marginLeft: 15}}>Ошибка загрузки данных...</h3>
 			:
-			<>{isLoading ? <h3>'Загрузка данных... '</h3> : <h3>Текст таска: {findTask.value}</h3>}
-			<Link to='/'>
-				<button>Назад</button>
-			</Link></>}
+			<>{isLoading ? <h3>'Загрузка данных... '</h3> : <h3>Текст таска: {findTask.value}</h3>}</>}
+		<Link to='/'>
+			<button>Назад</button>
+		</Link>
 
 	</>
 }
