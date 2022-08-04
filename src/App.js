@@ -7,8 +7,8 @@ import TaskListPage from "./Components/TaskListPage";
 function App() {
 	return <>
 		<Routes>
+			<Route path={'ui/tasks/:taskId'} element={<TaskPage />}/>
 			<Route path={'/'} element={<TaskListPage />}/>
-			<Route path={'/ui/tasks/:taskId'} element={<TaskPage />}/>
 			<Route path={'*'} element={<NotFound/>}/>
 		</Routes>
 	</>
