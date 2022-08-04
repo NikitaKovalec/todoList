@@ -21,7 +21,7 @@ function TaskPage() {
 				const data = await result.json()
 				dispatch(setLoadedTasks(data))
 			} else {
-				throw 'err'
+				throw new Error('Ошибка')
 			}
 		} catch (err) {
 			console.log(err.message)
@@ -38,11 +38,16 @@ function TaskPage() {
 	const findTask = tasks.find(obj => obj.id.toString() === id)
 
 	return <>
-		{isError ? <div style={{marginLeft: 15}}>Ошибка загрузки данных...</div> : <></>}
-		{isLoading ? <h3>'Загрузка данных... '</h3> : <h3>Текст таска: {findTask.value}</h3>}
-		<Link to='/'>
-			<button>Назад</button>
-		</Link>
+		{isError ? <><h3 style={{marginLeft: 15}}>Ошибка загрузки данных...</h3>
+			<Link to='/'>
+				<button>Назад</button>
+			</Link></>
+			:
+			<>{isLoading ? <h3>'Загрузка данных... '</h3> : <h3>Текст таска: {findTask.value}</h3>}
+			<Link to='/'>
+				<button>Назад</button>
+			</Link></>}
+
 	</>
 }
 
